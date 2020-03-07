@@ -1,17 +1,23 @@
 package afedorov.entities;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 public class Product {
+    private Long id;
     private String title;
-    private BigDecimal price;
     private Category category;
+    private Set<ValueOfParameter> parameters;
+    private BigDecimal price;
 
-    private List<ValueOfParameter> parameters;
-    private int quantityInStock;
+    public Long getId() {
+        return id;
+    }
 
-
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -19,14 +25,6 @@ public class Product {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
     }
 
     public Category getCategory() {
@@ -37,19 +35,35 @@ public class Product {
         this.category = category;
     }
 
-    public List<ValueOfParameter> getParameters() {
+    public Set<ValueOfParameter> getParameters() {
         return parameters;
     }
 
-    public void setParameters(List<ValueOfParameter> parameters) {
+    public void setParameters(Set<ValueOfParameter> parameters) {
         this.parameters = parameters;
     }
 
-    public int getQuantityInStock() {
-        return quantityInStock;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setQuantityInStock(int quantityInStock) {
-        this.quantityInStock = quantityInStock;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Product)) return false;
+        Product product = (Product) o;
+        return getTitle().equals(product.getTitle()) &&
+                Objects.equals(getCategory(), product.getCategory()) &&
+                Objects.equals(getParameters(), product.getParameters()) &&
+                Objects.equals(getPrice(), product.getPrice());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getTitle(), getCategory(), getParameters(), getPrice());
     }
 }

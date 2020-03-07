@@ -2,7 +2,6 @@ package afedorov.dao.impl.inmemory;
 
 import afedorov.dao.AddressDao;
 import afedorov.entities.Address;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -2,28 +2,25 @@ package afedorov.dao;
 
 import afedorov.entities.Order;
 import afedorov.entities.OrderStatus;
+import afedorov.entities.PaymentState;
 
 import java.util.List;
 
 public interface OrderDao {
 
     void add(Order order);
-    List<Order> findAllByClient (Long clientId);
-    List<Order> findAll ();
 
-    void update(Order order); // todo при реализации разрешать с определенным статусом CREATED
-    void repeatOrder(Long orderID);
-    Order findById(Long orderID);
+    void update(Long id, Order newOrder); // todo при реализации разрешать с определенным статусом CREATED
 
+    void repeatOrder(Long id);
 
-    void changeOrderStatus(Long orderID, OrderStatus status);
-    void changePaymentStatus(Long orderID, OrderStatus status);
+    Order findById(Long id);
 
+    List<Order> findAllByClient(Long clientId);
 
+    List<Order> findAll();
 
-    //TODO /оформление заказа / просмотри истории заказа / (дополнительно) повторить заказ
+    void changeOrderStatus(Long id, OrderStatus status);
 
-
-    //TODO просмотр заказа // изменение статуса заказа
-
+    void changePaymentState(Long id, PaymentState state);
 }

@@ -44,11 +44,11 @@ public class Client {
         this.birthDate = birthDate;
     }
 
-    public String geteMail() {
+    public String getMail() {
         return eMail;
     }
 
-    public void seteMail(String eMail) {
+    public void setMail(String eMail) {
         this.eMail = eMail;
     }
 
@@ -59,6 +59,8 @@ public class Client {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    //todo equals переопределить
 
 
 }

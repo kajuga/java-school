@@ -1,26 +1,25 @@
 package afedorov.entities;
 
 import java.util.Map;
-import java.util.Objects;
 
 public class Order {
-    private int orderId = hashCode();
+    private Long id;
 
     private Client client;
     private Address address;
-    private PaymentMethod method;
+    private PaymentMethod paymentMethod;
     private DeliveryMethod deliveryMethod;
     private Map <Product, Integer> products;
-    private PaymentState state;
-    private OrderStatus status;
+    private PaymentState paymentState;
+    private OrderStatus orderStatus;
 
 
-    public int getOrderId() {
-        return orderId;
+    public Long getId() {
+        return id;
     }
 
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
+    public void setId(Long orderId) {
+        this.id = orderId;
     }
 
     public Client getClient() {
@@ -39,12 +38,12 @@ public class Order {
         this.address = address;
     }
 
-    public PaymentMethod getMethod() {
-        return method;
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
     }
 
-    public void setMethod(PaymentMethod method) {
-        this.method = method;
+    public void setPaymentMethod(PaymentMethod method) {
+        this.paymentMethod = method;
     }
 
     public DeliveryMethod getDeliveryMethod() {
@@ -63,19 +62,19 @@ public class Order {
         this.products = products;
     }
 
-    public PaymentState getState() {
-        return state;
+    public PaymentState getPaymentState() {
+        return paymentState;
     }
 
-    public void setState(PaymentState state) {
-        this.state = state;
+    public void setPaymentState(PaymentState state) {
+        this.paymentState = state;
     }
 
-    public OrderStatus getStatus() {
-        return status;
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
     }
 
-    public void setStatus(OrderStatus status) {
-        this.status = status;
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 }

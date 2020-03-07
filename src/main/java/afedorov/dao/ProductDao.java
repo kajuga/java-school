@@ -4,7 +4,6 @@ import afedorov.entities.Product;
 
 public interface ProductDao {
 
-    void add(Product product);
+    //TODO
 
-    void update(Product product);
 }
