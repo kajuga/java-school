@@ -29,11 +29,8 @@ public class CategoryServlet extends HttpServlet {
                 resp.getWriter().print(json);
             } else {
                 List<Category> categories = categoryDao.findAll();
-                for (Category category : categories) {
-                    String json = mapper.writeValueAsString(category);
-                    resp.getWriter().println(json);
-                    resp.getWriter().flush();
-                }
+                req.setAttribute("categories", categories.toArray());
+                getServletContext().getRequestDispatcher("/main/categories/view.jsp").forward(req, resp);
             }
         } catch (NumberFormatException e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
