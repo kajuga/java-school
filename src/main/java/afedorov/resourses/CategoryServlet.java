@@ -6,6 +6,7 @@ import afedorov.entities.Category;
 import afedorov.exceptions.EntityExistException;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+@WebServlet("/categories")
 public class CategoryServlet extends HttpServlet {
 
     private CategoryDao categoryDao = new CategoryDaoImpl();

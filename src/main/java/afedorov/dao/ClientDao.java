@@ -1,7 +1,6 @@
 package afedorov.dao;
 
 import afedorov.entities.Client;
-import java.util.List;
 
 public interface ClientDao {
 
