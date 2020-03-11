@@ -1,4 +1,4 @@
-package afedorov.dao;
+package afedorov.dao.interfaces;
 
 import afedorov.entities.Order;
 import afedorov.entities.OrderStatus;

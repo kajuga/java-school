@@ -1,6 +1,6 @@
 package afedorov.dao.impl.inmemory;
 
-import afedorov.dao.ClientDao;
+import afedorov.dao.interfaces.ClientDao;
 import afedorov.entities.Client;
 
 import java.util.ArrayList;

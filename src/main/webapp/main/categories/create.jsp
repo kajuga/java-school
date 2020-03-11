@@ -4,6 +4,9 @@
     <title>Create category</title>
 </head>
 <body>
+<p>
+    <a href="${pageContext.servletContext.contextPath}/index.jsp">Главная страница</a>
+</p>
 
 <form action="${pageContext.servletContext.contextPath}/categories" method="POST">
     <table>

@@ -1,6 +1,6 @@
 package afedorov.dao.impl.inmemory;
 
-import afedorov.dao.OrderDao;
+import afedorov.dao.interfaces.OrderDao;
 import afedorov.entities.Order;
 import afedorov.entities.OrderStatus;
 import afedorov.entities.PaymentState;
@@ -8,23 +8,24 @@ import afedorov.entities.PaymentState;
 import java.util.ArrayList;
 import java.util.List;
 
+import static afedorov.dao.impl.inmemory.InMemoryDataBase.ORDERS;
+
 public class OrderDaoImpl implements OrderDao {
     private Long idGenerator = 1l;
-    private List<Order> orders = new ArrayList<>();
 
     @Override
     public void add(Order order) {
         if (order != null) {
             order.setId(idGenerator);
             idGenerator++;
-            orders.add(order);
+            ORDERS.add(order);
         }
     }
 
     @Override
     public Order findById(Long id) {
         if (id != null) {
-            for (Order finded : orders) {
+            for (Order finded : ORDERS) {
                 if (id.equals(finded.getId())) {
                     return finded;
                 }
@@ -60,7 +61,7 @@ public class OrderDaoImpl implements OrderDao {
     public List<Order> findAllByClient(Long clientId) {
         if (clientId != null) {
             List<Order> collectOrders = new ArrayList<>();
-            for (Order finded : orders) {
+            for (Order finded : ORDERS) {
                 if (clientId.equals(finded.getClient().getId())) {
                     collectOrders.add(finded);
                 }
@@ -72,7 +73,7 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public List<Order> findAll() {
-        return orders;
+        return ORDERS;
     }
 
     @Override

@@ -6,7 +6,9 @@
 </head>
 
 <body>
-
+<p>
+    <a href="${pageContext.servletContext.contextPath}/index.jsp">Главная страница</a>
+</p>
 <a href="${pageContext.servletContext.contextPath}/main/categories/create.jsp">Добавить категорию</a>
 
 <table border="1">

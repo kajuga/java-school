@@ -1,6 +1,6 @@
 package afedorov.resourses;
 
-import afedorov.dao.CategoryDao;
+import afedorov.dao.interfaces.CategoryDao;
 import afedorov.dao.impl.inmemory.CategoryDaoImpl;
 import afedorov.entities.Category;
 import afedorov.exceptions.EntityExistException;

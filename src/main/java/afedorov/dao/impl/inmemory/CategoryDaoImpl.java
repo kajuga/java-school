@@ -1,16 +1,16 @@
 package afedorov.dao.impl.inmemory;
 
-import afedorov.dao.CategoryDao;
+import afedorov.dao.interfaces.CategoryDao;
 import afedorov.entities.Category;
 import afedorov.exceptions.EntityExistException;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static afedorov.dao.impl.inmemory.InMemoryDataBase.CATEGORIES;
 
 public class CategoryDaoImpl implements CategoryDao {
 
     private Long idGenerator = 1L;
-    private List<Category> categories = new ArrayList<>();
 
     @Override
     public void add(Category category) {
@@ -19,7 +19,7 @@ public class CategoryDaoImpl implements CategoryDao {
             if (exist == null) {
                 category.setId(idGenerator);
                 idGenerator++;
-                categories.add(category);
+                CATEGORIES.add(category);
             } else {
                 throw new EntityExistException("Category with title " + category.getTitle() + " already exist!");
             }
@@ -30,19 +30,19 @@ public class CategoryDaoImpl implements CategoryDao {
     public void remove(Long id) {
         Category removed = findById(id);
         if (removed != null){
-            categories.remove(removed);
+            CATEGORIES.remove(removed);
         }
     }
 
     @Override
     public List<Category> findAll() {
-        return categories;
+        return CATEGORIES;
     }
 
     @Override
     public Category findById(Long id) {
         if (id != null){
-            for (Category category: categories){
+            for (Category category: CATEGORIES){
                 if (id.equals(category.getId())){
                     return category;
                 }
@@ -54,7 +54,7 @@ public class CategoryDaoImpl implements CategoryDao {
     @Override
     public Category findByTitle(String title) {
         if (title != null){
-            for (Category category: categories){
+            for (Category category: CATEGORIES){
                 if (title.equals(category.getTitle())){
                     return category;
                 }
