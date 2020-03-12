@@ -36,6 +36,7 @@
         <td>${product.description}</td>
         <td>${product.count}</td>
         <td><a href="${pageContext.servletContext.contextPath}/products?delete=${product.id}">Delete</a></td>
+        <td><a href="${pageContext.servletContext.contextPath}/products?update=${product.id}">Update</a></td>
     </tr>
     </c:forEach>
 

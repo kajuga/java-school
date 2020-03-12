@@ -31,8 +31,18 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public void update(Product product) {
-    //todo may be
+    public void update(Long id, Product product) {
+        if (product != null) {
+            Product updatable = findById(id);
+            updatable.setTitle(product.getTitle());
+            updatable.setCategory(product.getCategory());
+            updatable.setBrand(product.getBrand());
+            updatable.setColor(product.getColor());
+            updatable.setWeight(product.getWeight());
+            updatable.setPrice(product.getPrice());
+            updatable.setDescription(product.getDescription());
+            updatable.setCount(product.getCount());
+        }
     }
 
 

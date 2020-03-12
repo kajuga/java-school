@@ -36,7 +36,13 @@ public class ProductServlet extends HttpServlet {
                 getServletContext().getRequestDispatcher("/main/products/add.jsp").forward(request, response);
             }else if (products.containsKey("delete")){
                 Long id = Long.parseLong(products.get("delete")[0]);
-                products.remove(id);
+                productDao.remove(id);
+                response.sendRedirect(request.getContextPath() + "/products");
+            }else if (products.containsKey("update")){
+                Long id = Long.parseLong(products.get("update")[0]);
+
+//todo
+//                productDao.update(id, Product product);
                 response.sendRedirect(request.getContextPath() + "/products");
             } else {
                 List<Product> products1 = productDao.findAll();
