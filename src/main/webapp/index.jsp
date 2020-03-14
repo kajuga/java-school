@@ -6,7 +6,7 @@
 <body>
 
 <p><a href="categories">Categories</a></p>
-<p><a href="products">Products</a></p>
+<p><a href="viewProduct">Products</a></p>
 
 </body>
 </html>

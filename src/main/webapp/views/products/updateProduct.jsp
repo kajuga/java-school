@@ -1,31 +1,37 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" pageEncoding="UTF-8" session="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
 <head>
-    <title>Add product</title>
-
+    <title>Update section</title>
 </head>
+
 <body>
 <p>
     <a href="${pageContext.servletContext.contextPath}/index.jsp">Главная страница</a>
 </p>
 
-<form action="${pageContext.servletContext.contextPath}/products" method="POST">
+<form action="${pageContext.servletContext.contextPath}/editProduct?id=${id}" method="POST">
+<%--    <input type="hidden" name="id" value="${id}">--%>
     <table>
+        <tr>
+            <td align="right" >Id : </td>
+            <td align="right" >${id} </td>
+        </tr>
         <tr>
             <td align="right" >Title : </td>
             <td>
-                <input type="text" name="title">
+                <input type="text" name="title" value="${title}">
             </td>
         </tr>
         <tr>
             <td align="right" >Category : </td>
             <td>
                 <select name="category">
-                    <option value="${selected.getId()}" selected>${selected.getTitle()}</option>
-                    <c:forEach items="${categories}" var="category">
-                        <c:if test="${category != selected}">
-                            <option value="${category.getId()}">${category.getTitle()}</option>
+                    <option value="${category.getId()}" selected>${category.getTitle()}</option>
+                    <c:forEach items="${categories}" var="item">
+                        <c:if test="${item != selected}">
+                            <option value="${item.getId()}">${item.getTitle()}</option>
                         </c:if>
                     </c:forEach>
                 </select>
@@ -34,42 +40,42 @@
         <tr>
             <td align="right" >Brand : </td>
             <td>
-                <input type="text" name="brand">
+                <input type="text" name="brand" value="${brand}">
             </td>
         </tr>
         <tr>
             <td align="right" >Color : </td>
             <td>
-                <input type="text" name="color">
+                <input type="text" name="color" value="${color}">
             </td>
         </tr>
         <tr>
             <td align="right" >Weight : </td>
             <td>
-                <input type="text" name="weight">
+                <input type="text" name="weight" value="${weight}">
             </td>
         </tr>
         <tr>
             <td align="right" >Price : </td>
             <td>
-                <input type="text" name="price">
+                <input type="text" name="price" value="${price}">
             </td>
         </tr>
         <tr>
             <td align="right" >Description : </td>
             <td>
-                <input type="text" name="description">
+                <input type="text" name="description" value="${description}">
             </td>
         </tr>
         <tr>
             <td align="right" >Count : </td>
             <td>
-                <input type="text" name="count">
+                <input type="text" name="count" value="${count}">
             </td>
         </tr>
 
         <tr>
-            <td><input type="submit" align="center" value="Create"/></td>
+            <td><input type="submit" align="center" value="Update product"/></td>
         </tr>
     </table>
 </form>

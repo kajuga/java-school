@@ -1,4 +1,4 @@
-package afedorov.resourses;
+package afedorov.servlets.categories;
 
 import afedorov.dao.interfaces.CategoryDao;
 import afedorov.dao.impl.inmemory.CategoryDaoImpl;
@@ -31,7 +31,7 @@ public class CategoryServlet extends HttpServlet {
             } else {
                 List<Category> categories = categoryDao.findAll();
                 req.setAttribute("categories", categories.toArray());
-                getServletContext().getRequestDispatcher("/main/categories/view.jsp").forward(req, resp);
+                getServletContext().getRequestDispatcher("/views/categories/viewCategory.jsp").forward(req, resp);
             }
         } catch (NumberFormatException e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);

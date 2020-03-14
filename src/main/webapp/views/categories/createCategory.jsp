@@ -11,7 +11,7 @@
 <form action="${pageContext.servletContext.contextPath}/categories" method="POST">
     <table>
         <tr>
-            <td align="right" >Title : </td>
+            <td align="right">Title :</td>
             <td>
                 <input type="text" name="title">
             </td>

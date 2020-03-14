@@ -9,7 +9,7 @@
 <p>
     <a href="${pageContext.servletContext.contextPath}/index.jsp">Главная страница</a>
 </p>
-<a href="${pageContext.servletContext.contextPath}/main/categories/create.jsp">Добавить категорию</a>
+<a href="${pageContext.servletContext.contextPath}/views/categories/createCategory.jsp">Добавить категорию</a>
 
 <table border="1">
     <tr>
