@@ -3,12 +3,12 @@ package afedorov.dao.impl.inmemory;
 import afedorov.dao.interfaces.ClientDao;
 import afedorov.entities.Client;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static afedorov.dao.impl.inmemory.InMemoryDataBase.CLIENTS;
 
 public class ClientDaoImpl implements ClientDao {
     private Long idGenerator = 1l;
-    private List<Client> clients = new ArrayList<>();
 
     @Override
     public void add(Client client) {
@@ -18,21 +18,26 @@ public class ClientDaoImpl implements ClientDao {
         }
         client.setId(idGenerator);
         idGenerator++;
-        clients.add(client);
+        CLIENTS.add(client);
     }
 
     @Override
     public void remove(Long id) {
         Client removed = findById(id);
         if (removed != null) {
-            clients.remove(removed);
+            CLIENTS.remove(removed);
         }
+    }
+
+    @Override
+    public List<Client> findAll() {
+        return CLIENTS;
     }
 
     @Override
     public Client findById(Long id) {
         if(id != null) {
-            for (Client finded: clients) {
+            for (Client finded: CLIENTS) {
                 if(finded.getId().equals(id)) {
                     return finded;
                 }
@@ -56,7 +61,7 @@ public class ClientDaoImpl implements ClientDao {
 
     private Client findByEmail (String email) {
         if (email != null) {
-            for (Client finded : clients) {
+            for (Client finded : CLIENTS) {
                 if(email.equals(finded.getMail())) {
                     return finded;
                 }

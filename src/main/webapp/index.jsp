@@ -7,6 +7,7 @@
 
 <p><a href="categories">Categories</a></p>
 <p><a href="viewProduct">Products</a></p>
+<p><a href="viewClient">Clients</a></p>
 
 </body>
 </html>
