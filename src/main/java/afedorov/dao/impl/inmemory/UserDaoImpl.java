@@ -52,6 +52,7 @@ public class UserDaoImpl implements UserDao {
                 updated.setName(user.getName());
                 updated.setLastName(user.getLastName());
                 updated.setBirthDate(user.getBirthDate());
+                updated.setRole(user.getRole());
                 updated.setMail(user.getMail());
                 updated.setPassword(user.getPassword());
             }
@@ -59,10 +60,10 @@ public class UserDaoImpl implements UserDao {
     }
 
 
-    private User findByEmail (String email) {
-        if (email != null) {
+    public User findByMail (String mail) {
+        if (mail != null) {
             for (User finded : USERS) {
-                if(email.equals(finded.getMail())) {
+                if(mail.equals(finded.getMail())) {
                     return finded;
                 }
             }

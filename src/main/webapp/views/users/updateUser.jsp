@@ -31,9 +31,15 @@
             </td>
         </tr>
         <tr>
-            <td align="right" >Brithdate : </td>
+            <td align="right" >Birthdate : </td>
             <td>
                 <input type="date" name="birthDate" value="${birthDate}">
+            </td>
+        </tr>
+        <tr>
+            <td align="right" >Role : </td>
+            <td>
+                <input type="text" name="role" value="${role}">
             </td>
         </tr>
         <tr>

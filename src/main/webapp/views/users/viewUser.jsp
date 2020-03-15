@@ -17,6 +17,7 @@
         <td>Name</td>
         <td>Last name</td>
         <td>Birth date</td>
+        <td>role</td>
         <td>mail</td>
         <td>password</td>
 
@@ -27,6 +28,7 @@
         <td>${user.name}</td>
         <td>${user.lastName}</td>
         <td>${user.birthDate}</td>
+        <td>${user.role}</td>
         <td>${user.mail}</td>
         <td>${user.password}</td>
         <td><a href="${pageContext.servletContext.contextPath}/deleteUser?delete=${user.id}">Delete</a></td>

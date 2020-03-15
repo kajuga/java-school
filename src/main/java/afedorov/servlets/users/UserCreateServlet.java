@@ -24,11 +24,12 @@ public class UserCreateServlet extends HttpServlet {
         user.setName(request.getParameter("name"));
         user.setLastName(request.getParameter("lastName"));
         user.setBirthDate(LocalDate.parse(request.getParameter("birthDate")));
+        user.setRole(request.getParameter("role"));
         user.setMail(request.getParameter("mail"));
         user.setPassword(request.getParameter("password"));
         try {
             userDao.add(user);
-            response.sendRedirect(request.getContextPath() + "/viewUser");
+            response.sendRedirect(request.getContextPath() + "/access/registerSuccesfull.jsp");
         } catch (EntityExistException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());

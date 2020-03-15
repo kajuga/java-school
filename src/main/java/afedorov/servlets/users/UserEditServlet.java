@@ -25,6 +25,7 @@ public class UserEditServlet extends HttpServlet {
         user.setName(request.getParameter("name"));
         user.setLastName(request.getParameter("lastName"));
         user.setBirthDate(LocalDate.parse(request.getParameter("birthDate")));
+        user.setRole(request.getParameter("role"));
         user.setMail(request.getParameter("mail"));
         user.setPassword(request.getParameter("password"));
         try {
@@ -37,16 +38,24 @@ public class UserEditServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String id = request.getParameter("edit");
-        User user = userDao.findById(Long.parseLong(id));
-        request.setAttribute("id", id);
-        request.setAttribute("name", user.getName());
-        request.setAttribute("lastName", user.getLastName());
-        request.setAttribute("birthDate", user.getBirthDate());
-        request.setAttribute("mail", user.getMail());
-        request.setAttribute("password", user.getPassword());
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/views/users/updateUser.jsp");
-        dispatcher.forward(request, response);
+        Long userId = (Long) request.getSession().getAttribute("userId");
+        if (userId != null) {
+            User user = userDao.findById(userId);
+            request.setAttribute("id", userId);
+            request.setAttribute("name", user.getName());
+            request.setAttribute("lastName", user.getLastName());
+            request.setAttribute("birthDate", user.getBirthDate());
+            request.setAttribute("role", user.getRole());
+            request.setAttribute("mail", user.getMail());
+            request.setAttribute("password", user.getPassword());
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/users/updateUser.jsp");
+            dispatcher.forward(request, response);
+        } else {
+            //Переход на страницу с просьюой авторизоваться
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/access/errorLogin.jsp");
+            dispatcher.forward(request, response);
+        }
+
 
 
     }

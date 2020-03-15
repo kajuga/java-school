@@ -7,7 +7,7 @@
 </head>
 <body>
 <p>
-    <a href="${pageContext.servletContext.contextPath}/index.jsp">Главная страница</a>
+    <a href="${pageContext.servletContext.contextPath}/index.jsp">Main page</a>
 </p>
 
 <form action="${pageContext.servletContext.contextPath}/createUser" method="POST">
@@ -25,9 +25,15 @@
             </td>
         </tr>
         <tr>
-            <td align="right" >Brithdate : </td>
+            <td align="right" >Birthdate : </td>
             <td>
                 <input type="date" name="birthDate">
+            </td>
+        </tr>
+        <tr>
+            <td align="right" >Role : </td>
+            <td>
+                <input type="text" name="role">
             </td>
         </tr>
         <tr>
@@ -44,7 +50,7 @@
         </tr>
 
         <tr>
-            <td><input type="submit" align="center" value="Create"/></td>
+            <td><input type="submit" align="center" value="Register"/></td>
         </tr>
     </table>
 </form>

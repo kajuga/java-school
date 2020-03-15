@@ -14,4 +14,10 @@ public class InMemoryDataBase {
     final static List<Order> ORDERS = new ArrayList<>();
     final static List<Product> PRODUCTS = new ArrayList<>();
     final static List<User> USERS = new ArrayList<>();
+
+     enum Role {
+        CUSTOMER,
+        EMPLOYEE
+    }
 }
+
