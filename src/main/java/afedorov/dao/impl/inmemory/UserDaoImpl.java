@@ -2,9 +2,7 @@ package afedorov.dao.impl.inmemory;
 
 import afedorov.dao.interfaces.UserDao;
 import afedorov.entities.User;
-
 import java.util.List;
-
 import static afedorov.dao.impl.inmemory.InMemoryDataBase.USERS;
 
 public class UserDaoImpl implements UserDao {
@@ -12,8 +10,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void add(User user) {
-        User findedByEmail = findByEmail(user.getMail());
-        if(findedByEmail != null) {
+        User findedById = findById(user.getId());
+        if(findedById != null) {
             throw new RuntimeException("Клиент уже существует");
         }
         user.setId(idGenerator);
@@ -47,16 +45,18 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void update(User user) {
-        User updated = findByEmail(user.getMail());
-        if(updated != null) {
-            updated.setName(user.getName());
-            updated.setLastName(user.getLastName());
-            updated.setBirthDate(user.getBirthDate());
-            updated.setPassword(user.getPassword());
-            updated.setMail(user.getMail());
-                }
+    public void update(Long id, User user) {
+        if (user != null) {
+            User updated = findById(id);
+            if (updated != null) {
+                updated.setName(user.getName());
+                updated.setLastName(user.getLastName());
+                updated.setBirthDate(user.getBirthDate());
+                updated.setMail(user.getMail());
+                updated.setPassword(user.getPassword());
             }
+        }
+    }
 
 
     private User findByEmail (String email) {
