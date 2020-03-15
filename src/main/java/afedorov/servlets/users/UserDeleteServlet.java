@@ -1,7 +1,7 @@
-package afedorov.servlets.clients;
+package afedorov.servlets.users;
 
-import afedorov.dao.impl.inmemory.ClientDaoImpl;
-import afedorov.dao.interfaces.ClientDao;
+import afedorov.dao.impl.inmemory.UserDaoImpl;
+import afedorov.dao.interfaces.UserDao;
 import afedorov.exceptions.EntityExistException;
 
 import javax.servlet.ServletException;
@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/deleteClient")
-public class ClientDeleteServlet extends HttpServlet {
-    private ClientDao clientDao = new ClientDaoImpl();
+@WebServlet("/deleteUser")
+public class UserDeleteServlet extends HttpServlet {
+    private UserDao userDao = new UserDaoImpl();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -24,8 +24,8 @@ public class ClientDeleteServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("delete");
         try {
-            clientDao.remove(Long.parseLong(id));
-            response.sendRedirect(request.getContextPath() + "/viewClient");
+            userDao.remove(Long.parseLong(id));
+            response.sendRedirect(request.getContextPath() + "/viewUser");
         } catch (EntityExistException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());

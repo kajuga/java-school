@@ -3,7 +3,7 @@
 
 <html>
 <head>
-    <title>Update client section</title>
+    <title>Update user section</title>
 </head>
 
 <body>
@@ -11,7 +11,7 @@
     <a href="${pageContext.servletContext.contextPath}/index.jsp">Главная страница</a>
 </p>
 
-<form action="${pageContext.servletContext.contextPath}/editClient?id=${id}" method="POST">
+<form action="${pageContext.servletContext.contextPath}/editUser?id=${id}" method="POST">
     <%--    <input type="hidden" name="id" value="${id}">--%>
     <table>
         <tr>

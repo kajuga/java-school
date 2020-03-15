@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Add client</title>
+    <title>Add user</title>
 
 </head>
 <body>
@@ -10,7 +10,7 @@
     <a href="${pageContext.servletContext.contextPath}/index.jsp">Главная страница</a>
 </p>
 
-<form action="${pageContext.servletContext.contextPath}/createClient" method="POST">
+<form action="${pageContext.servletContext.contextPath}/createUser" method="POST">
     <table>
         <tr>
             <td align="right" >Name : </td>

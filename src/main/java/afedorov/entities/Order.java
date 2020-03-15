@@ -7,7 +7,7 @@ import java.util.Map;
 @Data
 public class Order {
     private Long id;
-    private Client client;
+    private User user;
     private Address address;
     private PaymentMethod paymentMethod;
     private DeliveryMethod deliveryMethod;

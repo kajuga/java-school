@@ -1,8 +1,8 @@
-package afedorov.servlets.clients;
+package afedorov.servlets.users;
 
-import afedorov.dao.impl.inmemory.ClientDaoImpl;
-import afedorov.dao.interfaces.ClientDao;
-import afedorov.entities.Client;
+import afedorov.dao.impl.inmemory.UserDaoImpl;
+import afedorov.dao.interfaces.UserDao;
+import afedorov.entities.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,17 +12,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/viewClient")
-public class ClientViewServlet extends HttpServlet {
-    private ClientDao clientDao = new ClientDaoImpl();
+@WebServlet("/viewUser")
+public class UserViewServlet extends HttpServlet {
+    private UserDao userDao = new UserDaoImpl();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Client> clients = clientDao.findAll();
-        request.setAttribute("clients", clients);
-        getServletContext().getRequestDispatcher("/views/clients/viewClient.jsp").forward(request, response);
+        List<User> users = userDao.findAll();
+        request.setAttribute("users", users);
+        getServletContext().getRequestDispatcher("/views/users/viewUser.jsp").forward(request, response);
     }
 }

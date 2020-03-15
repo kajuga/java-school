@@ -1,7 +1,7 @@
-package afedorov.servlets.clients;
+package afedorov.servlets.users;
 
-import afedorov.dao.impl.inmemory.ClientDaoImpl;
-import afedorov.dao.interfaces.ClientDao;
+import afedorov.dao.impl.inmemory.UserDaoImpl;
+import afedorov.dao.interfaces.UserDao;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/editClient")
-public class ClientEditServlet extends HttpServlet {
-    private ClientDao clientDao = new ClientDaoImpl();
+@WebServlet("/editUser")
+public class UserEditServlet extends HttpServlet {
+    private UserDao userDao = new UserDaoImpl();
     //todo
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -37,7 +37,6 @@ public class ClientEditServlet extends HttpServlet {
 //        }
     }
 
-    }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

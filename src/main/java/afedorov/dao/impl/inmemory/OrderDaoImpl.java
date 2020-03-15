@@ -58,11 +58,11 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> findAllByClient(Long clientId) {
-        if (clientId != null) {
+    public List<Order> findAllByUser(Long userId) {
+        if (userId != null) {
             List<Order> collectOrders = new ArrayList<>();
             for (Order finded : ORDERS) {
-                if (clientId.equals(finded.getClient().getId())) {
+                if (userId.equals(finded.getUser().getId())) {
                     collectOrders.add(finded);
                 }
                 return collectOrders;
