@@ -22,8 +22,8 @@ public class LoginCheckServlet extends HttpServlet {
             String password = request.getParameter("password");
             User user = userDao.findByMail(mail);
             if (user != null && user.getPassword().equals(password)) {
-                response.sendRedirect("/ishop/access/userDisplay.jsp");
                 request.getSession().setAttribute("userId", user.getId());
+                response.sendRedirect("/ishop/access/userDisplay.jsp");
 
             } else {
                 response.sendRedirect("/ishop/access/errorLogin.jsp");

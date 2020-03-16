@@ -36,8 +36,14 @@
         <td>${product.count}</td>
         <td><a href="${pageContext.servletContext.contextPath}/deleteProduct?delete=${product.id}">Delete</a></td>
         <td><a href="${pageContext.servletContext.contextPath}/editProduct?edit=${product.id}">Update</a></td>
+
+        <td><form action="${pageContext.servletContext.contextPath}/shoppingCart" method="post">
+            <input type="number" id="quantity" name="quantity" min="1" max=${product.count} size="5">
+            <input name="id" value="${product.id}" hidden>
+            <input type="submit" value="add to cart"></form></td>
     </tr>
     </c:forEach>
 
 </body>
 </html>
+
