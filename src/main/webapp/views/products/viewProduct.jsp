@@ -9,8 +9,9 @@
 <p>
     <a href="${pageContext.servletContext.contextPath}/index.jsp">Главная страница</a>
 </p>
+<a href="${pageContext.servletContext.contextPath}/views/shoppingCart/viewShoppingCart.jsp">КОРЗИНА</a>
+<p></p>
 <a href="${pageContext.servletContext.contextPath}/createProduct">Add product</a>
-
 <table border="1">
     <tr>
         <td>Id</td>
@@ -37,13 +38,22 @@
         <td><a href="${pageContext.servletContext.contextPath}/deleteProduct?delete=${product.id}">Delete</a></td>
         <td><a href="${pageContext.servletContext.contextPath}/editProduct?edit=${product.id}">Update</a></td>
 
-        <td><form action="${pageContext.servletContext.contextPath}/shoppingCart" method="post">
-            <input type="number" id="quantity" name="quantity" min="1" max=${product.count} size="5">
+        <td><form id="fillCart${product.id}" action="${pageContext.servletContext.contextPath}/shoppingCart" method="post">
+            <input type="number" id="count${product.id}" name="count${product.id}" min="0" max=${product.count} size="5">
             <input name="id" value="${product.id}" hidden>
-            <input type="submit" value="add to cart"></form></td>
+            <input name="title" value="${product.title}" hidden>
+            <input name="category" value="${product.category.id}" hidden>
+            <input name="brand" value="${product.brand}" hidden>
+            <input name="color" value="${product.color}" hidden>
+            <input name="weight" value="${product.weight}" hidden>
+            <input name="price" value="${product.price}" hidden>
+            <input name="description" value="${product.description}" hidden>
+            <button type="submit" form="fillCart${product.id}" value="Submit">add to cart</button>
+            </form></td>
     </tr>
     </c:forEach>
-
+    <p></p>
+</table>
 </body>
 </html>
 

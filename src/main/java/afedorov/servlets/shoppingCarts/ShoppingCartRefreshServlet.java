@@ -2,7 +2,6 @@ package afedorov.servlets.shoppingCarts;
 
 import afedorov.dao.impl.inmemory.CategoryDaoImpl;
 import afedorov.dao.interfaces.CategoryDao;
-import afedorov.entities.Product;
 import afedorov.servlets.model.ProductModel;
 
 import javax.servlet.ServletException;
@@ -16,8 +15,8 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet("/shoppingCart")
-public class ShoppingCartServlet extends HttpServlet {
+@WebServlet("/shoppingCartRefresh")
+public class ShoppingCartRefreshServlet extends HttpServlet {
     private CategoryDao categoryDao = new CategoryDaoImpl();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -40,11 +39,7 @@ public class ShoppingCartServlet extends HttpServlet {
         Integer count = Integer.parseInt(request.getParameter("count" + productModel.getId()));
 
         if (count != null){
-            if (cart.containsKey(productModel)){
-                cart.put(productModel, cart.get(productModel) + count);
-            } else {
-                cart.put(productModel, count);
-            }
+            cart.put(productModel, count);
         }
 
          session.setAttribute("shoppingCart", cart);
