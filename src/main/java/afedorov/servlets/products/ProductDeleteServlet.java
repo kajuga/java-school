@@ -3,6 +3,7 @@ package afedorov.servlets.products;
 import afedorov.dao.impl.inmemory.ProductDaoImpl;
 import afedorov.dao.interfaces.ProductDao;
 import afedorov.exceptions.EntityExistException;
+import afedorov.settings.ServiceManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +14,12 @@ import java.io.IOException;
 
 @WebServlet("/deleteProduct")
 public class ProductDeleteServlet extends HttpServlet {
-    private ProductDao productDao = new ProductDaoImpl();
+    private ProductDao productDao;
+
+    @Override
+    public void init() throws ServletException {
+        productDao = ServiceManager.getInstance(getServletContext()).getProductDao();
+    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

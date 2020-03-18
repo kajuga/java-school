@@ -1,4 +1,4 @@
-package afedorov.servlets.model;
+package afedorov.entities;
 
 import afedorov.entities.Category;
 import lombok.Data;
@@ -6,7 +6,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public class ProductModel {
+public class ProductInCart {
     private Long id;
     private String title;
     private Category category;

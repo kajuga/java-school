@@ -4,6 +4,8 @@ import afedorov.dao.impl.inmemory.UserDaoImpl;
 import afedorov.dao.interfaces.UserDao;
 import afedorov.entities.User;
 import afedorov.exceptions.EntityExistException;
+import afedorov.settings.ServiceManager;
+
 import java.time.LocalDate;
 
 
@@ -18,7 +20,12 @@ import java.time.LocalDate;
 
 @WebServlet("/editUser")
 public class UserEditServlet extends HttpServlet {
-    private UserDao userDao = new UserDaoImpl();
+    private UserDao userDao;
+
+    @Override
+    public void init() throws ServletException {
+        userDao = ServiceManager.getInstance(getServletContext()).getUserDao();
+    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = new User();

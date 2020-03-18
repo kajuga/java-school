@@ -1,8 +1,8 @@
 package afedorov.servlets.shoppingCarts;
 
-import afedorov.dao.impl.inmemory.CategoryDaoImpl;
 import afedorov.dao.interfaces.CategoryDao;
-import afedorov.servlets.model.ProductModel;
+import afedorov.entities.ProductInCart;
+import afedorov.settings.ServiceManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,29 +17,34 @@ import java.util.Map;
 
 @WebServlet("/shoppingCartRefresh")
 public class ShoppingCartRefreshServlet extends HttpServlet {
-    private CategoryDao categoryDao = new CategoryDaoImpl();
+    private CategoryDao categoryDao;
+
+    @Override
+    public void init() throws ServletException {
+        categoryDao = ServiceManager.getInstance(getServletContext()).getCategoryDao();
+    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        Map<ProductModel, Integer> cart = (Map<ProductModel, Integer>) session.getAttribute("shoppingCart");
+        Map<ProductInCart, Integer> cart = (Map<ProductInCart, Integer>) session.getAttribute("shoppingCart");
         if (cart == null){
             cart = new HashMap<>();
         }
 
-        ProductModel productModel = new ProductModel();
-        productModel.setId(Long.parseLong(request.getParameter("id")));
-        productModel.setTitle(request.getParameter("title"));
-        productModel.setCategory(categoryDao.findById(Long.parseLong(request.getParameter("category"))));
-        productModel.setBrand(request.getParameter("brand"));
-        productModel.setColor(request.getParameter("color"));
-        productModel.setWeight(Double.parseDouble(request.getParameter("weight")));
-        productModel.setPrice(new BigDecimal(request.getParameter("price")));
-        productModel.setDescription(request.getParameter("description"));
+        ProductInCart productInCart = new ProductInCart();
+        productInCart.setId(Long.parseLong(request.getParameter("id")));
+        productInCart.setTitle(request.getParameter("title"));
+        productInCart.setCategory(categoryDao.findById(Long.parseLong(request.getParameter("category"))));
+        productInCart.setBrand(request.getParameter("brand"));
+        productInCart.setColor(request.getParameter("color"));
+        productInCart.setWeight(Double.parseDouble(request.getParameter("weight")));
+        productInCart.setPrice(new BigDecimal(request.getParameter("price")));
+        productInCart.setDescription(request.getParameter("description"));
 
-        Integer count = Integer.parseInt(request.getParameter("count" + productModel.getId()));
+        Integer count = Integer.parseInt(request.getParameter("count" + productInCart.getId()));
 
         if (count != null){
-            cart.put(productModel, count);
+            cart.put(productInCart, count);
         }
 
          session.setAttribute("shoppingCart", cart);

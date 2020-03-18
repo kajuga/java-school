@@ -17,11 +17,14 @@
 
 
 Welcome! You are Logged in
-
+<p>
 <tr>
-    <td></td>
     <td><a href="${pageContext.servletContext.contextPath}/editUser">Edit profile</a></td>
 </tr>
+</p>
 
+<p>
+<td><a href="${pageContext.servletContext.contextPath}/viewProduct">Перейти в список товаров</a></td>
+</p>
 </body>
 </html>

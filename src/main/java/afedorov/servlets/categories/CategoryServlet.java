@@ -4,6 +4,7 @@ import afedorov.dao.interfaces.CategoryDao;
 import afedorov.dao.impl.inmemory.CategoryDaoImpl;
 import afedorov.entities.Category;
 import afedorov.exceptions.EntityExistException;
+import afedorov.settings.ServiceManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +18,12 @@ import java.util.Map;
 @WebServlet("/categories")
 public class CategoryServlet extends HttpServlet {
 
-    private CategoryDao categoryDao = new CategoryDaoImpl();
+    private CategoryDao categoryDao;
+
+    @Override
+    public void init() throws ServletException {
+        categoryDao = ServiceManager.getInstance(getServletContext()).getCategoryDao();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

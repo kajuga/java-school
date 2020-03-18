@@ -3,6 +3,8 @@ package afedorov.servlets.products;
 import afedorov.dao.impl.inmemory.ProductDaoImpl;
 import afedorov.dao.interfaces.ProductDao;
 import afedorov.entities.Product;
+import afedorov.settings.ServiceManager;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +15,12 @@ import java.util.List;
 
 @WebServlet("/viewProduct")
 public class ProductViewServlet extends HttpServlet {
-    private ProductDao productDao = new ProductDaoImpl();
+    private ProductDao productDao;
+
+    @Override
+    public void init() throws ServletException {
+        productDao = ServiceManager.getInstance(getServletContext()).getProductDao();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

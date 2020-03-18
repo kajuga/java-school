@@ -3,6 +3,7 @@ package afedorov.servlets.users;
 import afedorov.dao.impl.inmemory.UserDaoImpl;
 import afedorov.dao.interfaces.UserDao;
 import afedorov.exceptions.EntityExistException;
+import afedorov.settings.ServiceManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +14,12 @@ import java.io.IOException;
 
 @WebServlet("/deleteUser")
 public class UserDeleteServlet extends HttpServlet {
-    private UserDao userDao = new UserDaoImpl();
+    private UserDao userDao;
+
+    @Override
+    public void init() throws ServletException {
+        userDao = ServiceManager.getInstance(getServletContext()).getUserDao();
+    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

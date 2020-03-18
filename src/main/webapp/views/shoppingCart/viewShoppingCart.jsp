@@ -43,11 +43,15 @@
             <input name="weight" value="${entry.key.weight}" hidden>
             <input name="price" value="${entry.key.price}" hidden>
             <input name="description" value="${entry.key.description}" hidden>
-            <button type="submit" form="fillCart${entry.key.id}" value="Submit">Check out</button>
+            <button type="submit" form="fillCart${entry.key.id}" value="Submit">Confirm changes</button>
         </form></td>
     </tr>
     </c:forEach>
 </table>
+
+<p><a href="${pageContext.servletContext.contextPath}/OrderViewServlet">Оформить заказ</a></p>
+
+
 
 </body>
 </html>

@@ -11,7 +11,7 @@ public class Order {
     private Address address;
     private PaymentMethod paymentMethod;
     private DeliveryMethod deliveryMethod;
-    private Map<Product, Integer> products;
+    private Map<ProductInCart, Integer> products;
     private PaymentState paymentState;
     private OrderStatus orderStatus;
 }

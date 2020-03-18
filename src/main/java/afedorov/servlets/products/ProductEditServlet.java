@@ -7,6 +7,7 @@ import afedorov.dao.interfaces.ProductDao;
 import afedorov.entities.Category;
 import afedorov.entities.Product;
 import afedorov.exceptions.EntityExistException;
+import afedorov.settings.ServiceManager;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,10 +22,14 @@ import java.util.List;
 @WebServlet("/editProduct")
 public class ProductEditServlet extends HttpServlet {
 
-    private ProductDao productDao = new ProductDaoImpl();
-    private CategoryDao categoryDao = new CategoryDaoImpl();
+    private ProductDao productDao;
+    private CategoryDao categoryDao;
 
-
+    @Override
+    public void init() throws ServletException {
+        productDao = ServiceManager.getInstance(getServletContext()).getProductDao();
+        categoryDao = ServiceManager.getInstance(getServletContext()).getCategoryDao();
+    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Product product = new Product();

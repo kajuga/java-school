@@ -15,10 +15,10 @@
     <a href="${pageContext.servletContext.contextPath}/index.jsp">Main page</a>
 </p>
 
-<p>
-    <a href="${pageContext.servletContext.contextPath}/access/userLogin.jsp">Login page</a>
-</p>
+<p><a href="${pageContext.servletContext.contextPath}/access/userLogin.jsp">Login page</a></p>
+<p><a href="${pageContext.servletContext.contextPath}/createUser">Sign in page</a></p>
 
-Unsuccessful Login
+Unauthorized access. Please login or sign in.
 </body>
 </html>
+

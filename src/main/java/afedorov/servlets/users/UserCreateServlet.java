@@ -4,6 +4,7 @@ import afedorov.dao.impl.inmemory.UserDaoImpl;
 import afedorov.dao.interfaces.UserDao;
 import afedorov.entities.User;
 import afedorov.exceptions.EntityExistException;
+import afedorov.settings.ServiceManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,8 +17,12 @@ import java.util.List;
 
 @WebServlet("/createUser")
 public class UserCreateServlet extends HttpServlet {
-    UserDao userDao = new UserDaoImpl();
+    UserDao userDao;
 
+    @Override
+    public void init() throws ServletException {
+        userDao = ServiceManager.getInstance(getServletContext()).getUserDao();
+    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = new User();
