@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
@@ -26,6 +27,7 @@ public class UserCreateServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = new User();
+        HttpSession httpSession = request.getSession();
         user.setName(request.getParameter("name"));
         user.setLastName(request.getParameter("lastName"));
         user.setBirthDate(LocalDate.parse(request.getParameter("birthDate")));
@@ -34,6 +36,7 @@ public class UserCreateServlet extends HttpServlet {
         user.setPassword(request.getParameter("password"));
         try {
             userDao.add(user);
+            request.getSession().setAttribute("userId", user.getId());
             response.sendRedirect(request.getContextPath() + "/access/registerSuccesfull.jsp");
         } catch (EntityExistException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

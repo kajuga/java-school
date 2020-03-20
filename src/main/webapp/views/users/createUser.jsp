@@ -10,7 +10,9 @@
     <a href="${pageContext.servletContext.contextPath}/index.jsp">Main page</a>
 </p>
 
+<div style="border:1px solid #D0D0D0;width:600px;padding:10px;">
 <form action="${pageContext.servletContext.contextPath}/createUser" method="POST">
+
     <table>
         <tr>
             <td align="right" >Name : </td>
@@ -36,6 +38,7 @@
                 <input type="text" name="role">
             </td>
         </tr>
+
         <tr>
             <td align="right" >eMail : </td>
             <td>
@@ -54,6 +57,6 @@
         </tr>
     </table>
 </form>
-
+</div>
 </body>
 </html>

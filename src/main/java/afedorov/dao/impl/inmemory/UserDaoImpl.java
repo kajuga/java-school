@@ -1,8 +1,13 @@
 package afedorov.dao.impl.inmemory;
 
 import afedorov.dao.interfaces.UserDao;
+import afedorov.entities.Address;
 import afedorov.entities.User;
+
+import java.util.ArrayList;
 import java.util.List;
+
+import static afedorov.dao.impl.inmemory.InMemoryDataBase.ADDRESSES;
 import static afedorov.dao.impl.inmemory.InMemoryDataBase.USERS;
 
 public class UserDaoImpl implements UserDao {
@@ -71,3 +76,5 @@ public class UserDaoImpl implements UserDao {
         return null;
     }
 }
+
+

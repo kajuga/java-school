@@ -14,8 +14,11 @@
 <p>
     <a href="${pageContext.servletContext.contextPath}/index.jsp">Main page</a>
 </p>
+<p>
+<td><a href="${pageContext.servletContext.contextPath}/viewProduct">Перейти в список товаров</a></td>
+</p>
 
-
+<div style="border:1px solid #D0D0D0;width:600px;padding:10px;">
 Welcome! You are Logged in
 <p>
 <tr>
@@ -23,8 +26,6 @@ Welcome! You are Logged in
 </tr>
 </p>
 
-<p>
-<td><a href="${pageContext.servletContext.contextPath}/viewProduct">Перейти в список товаров</a></td>
-</p>
+</div>
 </body>
 </html>

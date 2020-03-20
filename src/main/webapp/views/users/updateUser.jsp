@@ -10,7 +10,7 @@
 <p>
     <a href="${pageContext.servletContext.contextPath}/index.jsp">Главная страница</a>
 </p>
-
+<div style="border:1px solid #D0D0D0;width:600px;padding:10px;">
 <form action="${pageContext.servletContext.contextPath}/editUser?id=${id}" method="POST">
     <%--    <input type="hidden" name="id" value="${id}">--%>
     <table>
@@ -43,6 +43,12 @@
             </td>
         </tr>
         <tr>
+            <td align="right" >Adress : </td>
+            <td>
+                <input type="text" name="address">
+            </td>
+        </tr>
+        <tr>
             <td align="right" >eMail : </td>
             <td>
                 <input type="text" name="mail" value="${mail}">
@@ -56,10 +62,10 @@
         </tr>
 
         <tr>
-            <td><input type="submit" align="center" value="Create"/></td>
+            <td><input type="submit" align="center" value="Save"/></td>
         </tr>
     </table>
 </form>
-
+</div>
 </body>
 </html>

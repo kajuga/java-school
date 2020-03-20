@@ -8,8 +8,9 @@ public class Address {
     private User user;
     private String country;
     private String city;
-    private String postcode;
+    private Integer postcode;
     private String street;
-    private int houseNumber;
-    private int room;
+    private String houseNumber;
+    private String room;
+    private String phone;
 }

@@ -1,5 +1,6 @@
 package afedorov.dao.interfaces;
 
+import afedorov.entities.Address;
 import afedorov.entities.User;
 import java.util.List;
 

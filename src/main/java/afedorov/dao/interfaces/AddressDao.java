@@ -2,13 +2,14 @@ package afedorov.dao.interfaces;
 
 import afedorov.entities.Address;
 
+import java.util.List;
+
 public interface AddressDao {
-
-    Address findByID(Long id);
     void add (Address address);
-    void remove (Address address);
-    void update (Address address);
-
-
-
+    void remove (Long id);
+    void update (Long id, Address address);
+    List<Address> findByUserID(Long id);
+    Address findById(Long id);
+    List<Address> findAll();
 }
+

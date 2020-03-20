@@ -10,6 +10,7 @@
 <p>
     <a href="${pageContext.servletContext.contextPath}/index.jsp">Главная страница</a>
 </p>
+<div style="border:1px solid #D0D0D0;width:600px;padding:10px;">
 <a href="${pageContext.servletContext.contextPath}/createUser">Add user</a>
 <table border="1">
     <tr>
@@ -35,6 +36,7 @@
         <td><a href="${pageContext.servletContext.contextPath}/editUser?edit=${user.id}">Update</a></td>
     </tr>
     </c:forEach>
-
+</table>
+</div>
 </body>
 </html>

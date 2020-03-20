@@ -62,8 +62,5 @@ public class UserEditServlet extends HttpServlet {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/access/errorLogin.jsp");
             dispatcher.forward(request, response);
         }
-
-
-
     }
 }

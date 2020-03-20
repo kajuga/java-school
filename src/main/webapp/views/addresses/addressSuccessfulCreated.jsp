@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: kajuga
-  Date: 15.03.20
-  Time: 22:39
+  Date: 20.03.20
+  Time: 15:02
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -14,14 +14,12 @@
 <p>
     <a href="${pageContext.servletContext.contextPath}/index.jsp">На главную</a>
 </p>
+<div style="border:1px solid #D0D0D0;width:600px;padding:10px;">
 
-Register successfull!
-now, you can
-<%--<p><a href="/ishop/access/userLogin.jsp">Login</a></p>--%>
-
-<p><a href="/ishop/views/products/viewProduct.jsp">Посмотреть список продуктов</a></p>
+Address successfull created!
+now, you can continue shopping
 
 
-
+</div>
 </body>
 </html>
