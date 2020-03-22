@@ -19,58 +19,58 @@
             <tr>
                 <td align="right" >First name : </td>
                 <td>
-                    <input type="text" name="name">
+                    <input type="text" value="${name}" disabled>
                 </td>
             </tr>
             <tr>
                 <td align="right" >Last name : </td>
                 <td>
-                    <input type="text" name="lastName">
+                    <input type="text" value="${lastName}" disabled>
                 </td>
             </tr>
 
             <tr>
                 <td align="right" >Country : </td>
                 <td>
-                    <input type="text" name="country">
+                    <input type="text" value="${country}" name="country">
                 </td>
             </tr>
             <tr>
                 <td align="right" >City : </td>
                 <td>
-                    <input type="text" name="city">
+                    <input type="text" value="${city}" name="city">
                 </td>
             </tr>
             <tr>
                 <td align="right" >Postal code : </td>
                 <td>
-                    <input type="text" name="postcode">
+                    <input type="text" value="${postcode}" name="postcode">
                 </td>
             </tr>
             <tr>
                 <td align="right" >Street : </td>
                 <td>
-                    <input type="text" name="street">
+                    <input type="text" value="${street}" name="street">
                 </td>
             </tr>
 
             <tr>
                 <td align="right" >House number : </td>
                 <td>
-                    <input type="text" name="houseNumber">
+                    <input type="text" value="${houseNumber}" name="houseNumber">
                 </td>
             </tr>
 
             <tr>
                 <td align="right" >Apartment number : </td>
                 <td>
-                    <input type="text" name="room">
+                    <input type="text" value="${room}" name="room">
                 </td>
             </tr>
             <tr>
                 <td align="right" >tel. : </td>
                 <td>
-                    <input type="text" name="phone" pattern="+7[0-9]{3}-[0-9]{7}">
+                    <input type="text" value ="${phone}" name="phone">
                 </td>
             </tr>
 

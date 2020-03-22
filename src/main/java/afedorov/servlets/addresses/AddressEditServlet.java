@@ -3,6 +3,7 @@ package afedorov.servlets.addresses;
 import afedorov.dao.interfaces.AddressDao;
 import afedorov.dao.interfaces.UserDao;
 import afedorov.entities.Address;
+import afedorov.entities.User;
 import afedorov.exceptions.EntityExistException;
 import afedorov.settings.ServiceManager;
 
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @WebServlet("/editAddress")
@@ -32,7 +34,7 @@ public class AddressEditServlet extends HttpServlet {
         HttpSession session = request.getSession();
         if (session.getAttribute("userId") != null) {
             Address address = new Address();
-            address.setUser(userDao.findById((Long) (session.getAttribute("userId"))));
+            address.setUser(addressDao.findById((Long) (session.getAttribute("userId"))).getUser());
             address.setCountry(request.getParameter("country"));
             address.setCity(request.getParameter("city"));
             address.setPostcode(Integer.parseInt(request.getParameter("postcode")));
@@ -55,12 +57,14 @@ public class AddressEditServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Long addressId = Long.parseLong(request.getParameter("id"));
-        if (addressId != null) {
-            Address address = addressDao.findById(addressId);
-            request.setAttribute("id", addressId);
+        HttpSession httpSession = request.getSession();
+        Long idUser = (Long)(httpSession.getAttribute("userId"));
+        Address address = addressDao.findByUserID(idUser);
+        if (address != null ) {
+            request.setAttribute("id", address.getId());
             request.setAttribute("name", address.getUser().getName());
             request.setAttribute("lastName", address.getUser().getLastName());
+            request.setAttribute("country", address.getCountry());
             request.setAttribute("city", address.getCity());
             request.setAttribute("postcode", address.getPostcode());
             request.setAttribute("street", address.getStreet());
@@ -69,7 +73,11 @@ public class AddressEditServlet extends HttpServlet {
             request.setAttribute("phone", address.getPhone());
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/addresses/updateAddress.jsp");
             dispatcher.forward(request, response);
-        } else {
+        } else if (idUser != null) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/addresses/viewAddress.jsp");
+            dispatcher.forward(request, response);
+        }
+        else {
             //Переход на страницу с просьюой авторизоваться
             RequestDispatcher dispatcher = request.getRequestDispatcher("/access/errorLogin.jsp");
             dispatcher.forward(request, response);

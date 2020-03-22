@@ -3,6 +3,7 @@ package afedorov.servlets.addresses;
 import afedorov.dao.interfaces.AddressDao;
 import afedorov.dao.interfaces.UserDao;
 import afedorov.entities.Address;
+import afedorov.entities.User;
 import afedorov.exceptions.EntityExistException;
 import afedorov.settings.ServiceManager;
 
@@ -54,8 +55,10 @@ public class AddressCreateServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Address> addresses = addressDao.findAll();
-        request.setAttribute("addresses", addresses);
+        HttpSession session = request.getSession();
+        Long userId = (Long) session.getAttribute("userId");
+        User user = userDao.findById(userId);
+        request.setAttribute("user", user);
         getServletContext().getRequestDispatcher("/views/addresses/createAddress.jsp").forward(request, response);
     }
 }

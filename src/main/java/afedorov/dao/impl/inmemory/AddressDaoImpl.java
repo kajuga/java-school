@@ -35,7 +35,7 @@ public class AddressDaoImpl implements AddressDao {
 
     @Override
     public void update(Long id, Address address) {
-        Address updated = findById(address.getId());
+        Address updated = findById(id);
         if (updated != null) {
             updated.setCity(address.getCity());
             updated.setCountry(address.getCountry());
@@ -43,6 +43,7 @@ public class AddressDaoImpl implements AddressDao {
             updated.setPostcode(address.getPostcode());
             updated.setRoom(address.getRoom());
             updated.setStreet(address.getStreet());
+            updated.setPhone(address.getPhone());
         }
     }
 
@@ -59,18 +60,15 @@ public class AddressDaoImpl implements AddressDao {
     }
 
     @Override
-    public List<Address> findByUserID(Long id) {
+    public Address findByUserID(Long id) {
         if (id != null) {
-            List<Address> finded = new ArrayList<>();
             for (Address userAddr : ADDRESSES) {
                 if (userAddr.getUser().getId().equals(id)) {
-                    finded.add(userAddr);
+                    return userAddr;
                 }
             }
-            return finded;
-        } else {
-            return null;
         }
+        return null;
     }
 
     @Override

@@ -27,7 +27,6 @@ public class UserCreateServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = new User();
-        HttpSession httpSession = request.getSession();
         user.setName(request.getParameter("name"));
         user.setLastName(request.getParameter("lastName"));
         user.setBirthDate(LocalDate.parse(request.getParameter("birthDate")));
@@ -44,9 +43,5 @@ public class UserCreateServlet extends HttpServlet {
         }
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<User> users = userDao.findAll();
-        request.setAttribute("users", users);
-        getServletContext().getRequestDispatcher("/views/users/createUser.jsp").forward(request, response);
-    }
+
 }

@@ -8,7 +8,7 @@ public interface AddressDao {
     void add (Address address);
     void remove (Long id);
     void update (Long id, Address address);
-    List<Address> findByUserID(Long id);
+    Address findByUserID(Long id);
     Address findById(Long id);
     List<Address> findAll();
 }

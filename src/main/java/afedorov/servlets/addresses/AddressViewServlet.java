@@ -28,10 +28,10 @@ public class AddressViewServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        if (session.getAttribute("userId") != null) {
-
-            List<Address> addresses = addressDao.findAll();
-            request.setAttribute("addresses", addresses);
+        Long userId = (Long) session.getAttribute("userId");
+        if (userId != null) {
+            Address address = addressDao.findByUserID(userId);
+            request.setAttribute("address", address);
             getServletContext().getRequestDispatcher("/views/addresses/viewAddress.jsp").forward(request, response);
         } else {
             response.sendRedirect("/ishop/access/errorLogin.jsp");

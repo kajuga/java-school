@@ -13,8 +13,8 @@
     <a href="${pageContext.servletContext.contextPath}/createAddress">Add delivery address</a>
 </p>
 <div style="border:1px solid #D0D0D0;width:600px;padding:10px;">
+<%--    <c:if test="${empty address.user.name}">--%>
     <hr>
-    <c:forEach items="${addresses}" var="address">
         <p>
             <strong> ${address.user.lastName}, ${address.user.name} </strong>
         </p>
@@ -33,11 +33,10 @@
         <hr>
         <a href="${pageContext.servletContext.contextPath}/deleteAddress?delete=${address.id}">Delete address</a>
         <p>
-        <a href="${pageContext.servletContext.contextPath}/editAddress?id=${address.id}">Update delivery address</a>
+        <a href="${pageContext.servletContext.contextPath}/editAddress">Update delivery address</a>
         </p>
-
-    </c:forEach>
     <hr>
+<%--    </c:if>--%>
 </div>
 </body>
 </html>
