@@ -10,6 +10,10 @@
 <p><a href="viewUser">Users</a></p>
 <p><a href="viewAddress">Addresses</a></p>
 <p><a href="editAddress">Edit delivery address</a></p>
+
+<p><a href="/OrderViewServlet">View orders current user</a></p>
+<p><a href="viewAllOrders">View all orders in database</a></p>
+
 <%--<p><a href="createUser">Sign in</a></p>--%>
 <p><a href="${pageContext.servletContext.contextPath}/views/users/createUser.jsp">Sign in</a></p>
 <p><a href="editUser">Edit current profile</a></p>

@@ -7,6 +7,15 @@ public enum PaymentState {
     COMPLETED,
     CANCELED,
     FROZEN,
-    ERROR
+    ERROR;
+
+    public static PaymentState fromKey(String key){
+        for (PaymentState paymentState : values()){
+            if (paymentState.name().equals(key)){
+                return paymentState;
+            }
+        }
+        throw new IllegalArgumentException("Incorrect paymentState");
+    }
 
 }

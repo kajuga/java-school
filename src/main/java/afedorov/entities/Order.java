@@ -2,6 +2,7 @@ package afedorov.entities;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 @Data
@@ -14,4 +15,5 @@ public class Order {
     private Map<ProductInCart, Integer> products;
     private PaymentState paymentState;
     private OrderStatus orderStatus;
+    private BigDecimal orderCost;
 }

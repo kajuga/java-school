@@ -1,6 +1,10 @@
 package afedorov.servlets.orders;
 
+import afedorov.dao.interfaces.AddressDao;
+import afedorov.dao.interfaces.OrderDao;
 import afedorov.dao.interfaces.UserDao;
+import afedorov.entities.Address;
+import afedorov.entities.Order;
 import afedorov.settings.ServiceManager;
 
 import javax.servlet.RequestDispatcher;
@@ -12,14 +16,20 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 @WebServlet("/OrderViewServlet")
 public class OrderViewServlet extends HttpServlet {
     private UserDao userDao;
+    private AddressDao addressDao;
+    private OrderDao orderDao;
 
     @Override
     public void init() throws ServletException {
         userDao = ServiceManager.getInstance(getServletContext()).getUserDao();
+        addressDao = ServiceManager.getInstance(getServletContext()).getAddressDao();
+        orderDao = ServiceManager.getInstance(getServletContext()).getOrderDao();
+
     }
 
 
@@ -30,26 +40,16 @@ public class OrderViewServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-
         Long userId = (Long) session.getAttribute("userId");
         if (userId != null) {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/orders/orderConfirmation.jsp");
-            dispatcher.forward(request, response);
+            Address address = addressDao.findByUserID(userId);
+            request.setAttribute("address", address);
+            getServletContext().getRequestDispatcher("/views/orders/orderConfirmation.jsp").forward(request, response);
         } else {
             //Переход на страницу с просьюой авторизоваться
             RequestDispatcher dispatcher = request.getRequestDispatcher("/access/errorLogin.jsp");
             dispatcher.forward(request, response);
         }
-
-
-
-
-        PrintWriter printWriter = response.getWriter();
-        printWriter.println("<html>");
-        printWriter.println("<h1> HELLO from  /OrderViewServlet </h1>");
-        printWriter.println("</html>");
-
-
 
     }
 }
