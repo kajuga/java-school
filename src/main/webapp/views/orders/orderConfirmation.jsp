@@ -15,7 +15,7 @@
 <body>
 <p><a href="${pageContext.servletContext.contextPath}/index.jsp">Главная страница</a></p>
 <p><a href="${pageContext.servletContext.contextPath}/viewProduct">Catalog of products</a></p>
-<div style="border:1px solid #D0D0D0;width:600px;padding:10px;">
+<div style="border:1px solid #D0D0D0;width:650px;padding:10px;">
     <br>
     <form action="${pageContext.servletContext.contextPath}/createOrder" method="post">
 
@@ -95,7 +95,8 @@
             <tr>
                 <td colspan="8" style="background-color: rgba(180,180,172,0.87)"><strong>Cумма к оплате:</strong></td>
                 <td style="background-color: rgba(180,180,172,0.87)">
-                    <input type="text" value="${countTotal}" name="countTotal" />
+                    <input type="text" readonly value="${countTotal}" name="countTotal" />
+<%--                <td style="background-color: rgba(180,180,172,0.87)">${countTotal} </td>--%>
                 </td>
             </tr>
             <br>

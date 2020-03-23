@@ -37,21 +37,19 @@ public class OrderCreatedServlet extends HttpServlet {
         Order order = new Order();
         User user = userDao.findById((Long) httpSession.getAttribute("userId"));
         Address address = addressDao.findByUserID(user.getId());
-        DeliveryMethod deliveryMethod = (DeliveryMethod) httpSession.getAttribute("deliveryMethod");
-        PaymentMethod paymentMethod = (PaymentMethod) httpSession.getAttribute("paymentMethod");
-        Map<ProductInCart, Integer> shopCart =  (Map<ProductInCart, Integer>) httpSession.getAttribute("shopCart");
+        Map<ProductInCart, Integer> shopCart =  (Map<ProductInCart, Integer>) httpSession.getAttribute("shoppingCart");
 
         order.setUser(user);
         order.setAddress(address);
-        order.setDeliveryMethod(deliveryMethod);
-        order.setPaymentMethod(paymentMethod);
+        order.setDeliveryMethod(DeliveryMethod.fromKey(request.getParameter("deliveryMethod")));
+        order.setPaymentMethod(PaymentMethod.fromKey(request.getParameter("paymentMethod")));
         order.setProducts(shopCart);
         order.setOrderStatus(OrderStatus.CREATED);
         order.setPaymentState(PaymentState.AWAITING_PAYMENT);
-        order.setOrderCost((BigDecimal) httpSession.getAttribute("totalCount"));
+        order.setOrderCost(new BigDecimal(request.getParameter("countTotal")));
         try {
         orderDao.add(order);
-        httpSession.setAttribute("shopCart", null);
+        httpSession.setAttribute("shoppingCart", null);
 
         response.sendRedirect(request.getContextPath() + "/access/registerSuccesfull.jsp");
     } catch (
