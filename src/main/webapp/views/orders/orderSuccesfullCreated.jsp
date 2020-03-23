@@ -12,13 +12,15 @@
 </head>
 <body>
 <p>
-    <a href="${pageContext.servletContext.contextPath}/index.jsp">На главную</a>
+    <a href="${pageContext.servletContext.contextPath}/index.jsp">Main page</a>
 </p>
 
 <div style="border:1px solid #D0D0D0;width:600px;padding:10px;">
 
     Order successfull created!
     now, you can continue shopping
+
+    <p><a href="${pageContext.servletContext.contextPath}/OrdersSpecificUser">View list of orders</a></p>
 
 </div>
 </body>

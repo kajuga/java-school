@@ -9,7 +9,6 @@
 <p>
     <a href="${pageContext.servletContext.contextPath}/index.jsp">Главная страница</a>
 </p>
-<a href="${pageContext.servletContext.contextPath}/views/categories/createCategory.jsp">Добавить категорию</a>
 
 <table border="1">
     <tr>
@@ -20,9 +19,15 @@
     <tr>
         <td>${category.id}</td>
         <td>${category.title}</td>
+        <c:if test="${role=='ADMIN'}">
         <td><a href="${pageContext.servletContext.contextPath}/categories?delete=${category.id}">Удалить</a></td>
+        </c:if>
     </tr>
     </c:forEach>
+<c:if test="${role=='ADMIN'}">
+    <a href="${pageContext.servletContext.contextPath}/views/categories/createCategory.jsp">Добавить категорию</a>
+
+</c:if>
 
 </body>
 </html>

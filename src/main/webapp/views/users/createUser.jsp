@@ -17,38 +17,47 @@
         <tr>
             <td align="right" >Name : </td>
             <td>
-                <input type="text" name="name">
+                <input type="text" name="name" required>
             </td>
         </tr>
         <tr>
             <td align="right" >Last name : </td>
             <td>
-                <input type="text" name="lastName">
+                <input type="text" name="lastName" required>
             </td>
         </tr>
         <tr>
             <td align="right" >Birthdate : </td>
             <td>
-                <input type="date" name="birthDate">
+                <input type="date" name="birthDate" required>
             </td>
         </tr>
         <tr>
             <td align="right" >Role : </td>
-            <td>
-                <input type="text" name="role">
+           <td>
+                <input type="text" name="role" value="USER">
             </td>
         </tr>
+<!--<tr>
+        <td align="right">Role :</td>
+    <td><select name="type" id="role" required>
+            <option value="none" hidden="">Choose role</option>
+            <option value="USER">customer</option>
+            <option value="ADMIN">employee</option>
+        </select>
+        </td>
+</tr>-->
 
         <tr>
             <td align="right" >eMail : </td>
             <td>
-                <input type="text" name="mail">
+                <input type="text" name="mail" required>
             </td>
         </tr>
         <tr>
             <td align="right" >Password : </td>
             <td>
-                <input type="text" name="password">
+                <input type="text" name="password" required>
             </td>
         </tr>
 

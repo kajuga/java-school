@@ -11,12 +11,15 @@
     <a href="${pageContext.servletContext.contextPath}/index.jsp">Главная страница</a>
 </p>
 <div style="border:1px solid #D0D0D0;width:600px;padding:10px;">
+    <c:if test="${role=='ADMIN'}">
 <form action="${pageContext.servletContext.contextPath}/editUser?id=${id}" method="POST">
+    </c:if>
+
     <%--    <input type="hidden" name="id" value="${id}">--%>
     <table>
         <tr>
-            <td align="right" >id : </td>
-            <td align="right" >${id} </td>
+            <td align="right" hidden>id : </td>
+            <td align="right" hidden>${id} </td>
         </tr>
         <tr>
             <td align="right" >Name : </td>
@@ -39,13 +42,7 @@
         <tr>
             <td align="right" >Role : </td>
             <td>
-                <input type="text" name="role" value="${role}">
-            </td>
-        </tr>
-        <tr>
-            <td align="right" >Adress : </td>
-            <td>
-                <input type="text" name="address">
+                <input type="text" name="role" value="${role}" readonly>
             </td>
         </tr>
         <tr>

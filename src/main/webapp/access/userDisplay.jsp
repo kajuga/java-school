@@ -25,6 +25,9 @@ Welcome! You are Logged in
     <td><a href="${pageContext.servletContext.contextPath}/editUser">Edit profile</a></td>
 </tr>
 </p>
+    <p>
+        <a href="${pageContext.servletContext.contextPath}/editAddress">Update delivery address</a>
+    </p>
 
 </div>
 </body>

@@ -51,7 +51,7 @@ public class OrderCreatedServlet extends HttpServlet {
         orderDao.add(order);
         httpSession.setAttribute("shoppingCart", null);
 
-        response.sendRedirect(request.getContextPath() + "/access/registerSuccesfull.jsp");
+        response.sendRedirect(request.getContextPath() + "/views/orders/orderSuccesfullCreated.jsp");
     } catch (
     EntityExistException e) {
         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

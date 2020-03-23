@@ -29,6 +29,7 @@ public class LoginCheckServlet extends HttpServlet {
             User user = userDao.findByMail(mail);
             if (user != null && user.getPassword().equals(password)) {
                 request.getSession().setAttribute("userId", user.getId());
+                request.getSession().setAttribute("role", user.getRole());
                 response.sendRedirect("/ishop/access/userDisplay.jsp");
 
             } else {
@@ -43,7 +44,3 @@ public class LoginCheckServlet extends HttpServlet {
 
     }
 }
-
-//
-//    RequestDispatcher dispatcher = request.getRequestDispatcher("/access/errorLogin.jsp");
-//            dispatcher.forward(request, response);

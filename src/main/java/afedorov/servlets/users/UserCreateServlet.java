@@ -36,6 +36,7 @@ public class UserCreateServlet extends HttpServlet {
         try {
             userDao.add(user);
             request.getSession().setAttribute("userId", user.getId());
+            request.getSession().setAttribute("role", user.getRole());
             response.sendRedirect(request.getContextPath() + "/access/registerSuccesfull.jsp");
         } catch (EntityExistException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

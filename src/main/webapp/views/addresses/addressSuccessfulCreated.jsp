@@ -18,6 +18,7 @@
 
 Address successfull created!
 now, you can continue shopping
+    <p><a href="${pageContext.servletContext.contextPath}/viewProduct">View products</a></p>
 
 
 </div>

@@ -40,7 +40,7 @@
         <hr>
         Choose delivery method:
         <br>
-        <input list="deliveryMethods" name="deliveryMethod" id="deliveryMethod">
+        <input list="deliveryMethods" name="deliveryMethod" id="deliveryMethod" required>
         <datalist id="deliveryMethods">
             <option value="POST">
             <option value="PICKUP">
@@ -51,7 +51,7 @@
         <hr>
         Choose payment method:
         <br>
-        <input list="paymentMethods" name="paymentMethod" id="paymentMethod">
+        <input list="paymentMethods" name="paymentMethod" id="paymentMethod" required>
         <datalist id="paymentMethods">
             <option value="CASH">
             <option value="CARD_PAYMENT">
