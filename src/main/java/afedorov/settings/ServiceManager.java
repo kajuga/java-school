@@ -1,6 +1,7 @@
 package afedorov.settings;
 
 import afedorov.dao.impl.inmemory.*;
+import afedorov.dao.impl.jdbc.CategoryDaoJdbcImpl;
 import afedorov.dao.interfaces.*;
 
 import javax.servlet.ServletContext;
@@ -16,7 +17,7 @@ public class ServiceManager {
 
 	private ServiceManager(ServletContext context) {
 		this.addressDao = new AddressDaoImpl();
-		this.categoryDao = new CategoryDaoImpl();
+		this.categoryDao = new CategoryDaoJdbcImpl();
 		this.orderDao = new OrderDaoImpl();
 		this.userDao = new UserDaoImpl();
 		this.productDao = new ProductDaoImpl();

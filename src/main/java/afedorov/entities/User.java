@@ -12,7 +12,7 @@ public class User {
     private String lastName;
     private LocalDate birthDate;
     private String role;
-    private Address address;
+//    private Address address;
     private String mail;
     private String password;
 }

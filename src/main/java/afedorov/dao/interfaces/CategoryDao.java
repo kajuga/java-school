@@ -2,6 +2,7 @@ package afedorov.dao.interfaces;
 
 import afedorov.entities.Category;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface CategoryDao {

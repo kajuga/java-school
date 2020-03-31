@@ -1,7 +1,6 @@
 package afedorov.servlets.categories;
 
 import afedorov.dao.interfaces.CategoryDao;
-import afedorov.dao.impl.inmemory.CategoryDaoImpl;
 import afedorov.entities.Category;
 import afedorov.exceptions.EntityExistException;
 import afedorov.settings.ServiceManager;
@@ -12,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
