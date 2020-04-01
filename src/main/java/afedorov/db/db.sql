@@ -173,6 +173,11 @@ SELECT p.id, p.title, p.category_id, c.title AS category_title, p.brand, p.color
 FROM product as p LEFT JOIN category c on p.category_id = c.id;
 
 
+SELECT * FROM address where id= 1;
+
+SELECT a.id, a.user_id, u.name AS user_name, u.lastName, u.birthDate, u.role, u.mail, u.password
+
+
 drop table productInCart;
 drop table orders;
 drop table address;

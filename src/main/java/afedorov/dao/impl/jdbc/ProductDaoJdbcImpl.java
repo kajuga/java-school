@@ -13,7 +13,7 @@ public class ProductDaoJdbcImpl implements ProductDao {
     public void add(Product product) {
         try (PreparedStatement prepStat = getConnection().prepareStatement("INSERT INTO product (title, category_id, brand, color, weight, price, description, count) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
             prepStat.setString(1, product.getTitle());
-            prepStat.setInt(2, Math.toIntExact(product.getCategory().getId()));
+            prepStat.setLong(2, product.getCategory().getId());
             prepStat.setString(3, product.getBrand());
             prepStat.setString(4, product.getColor());
             prepStat.setDouble(5, product.getWeight());
@@ -41,7 +41,7 @@ public class ProductDaoJdbcImpl implements ProductDao {
             preparedStatement.setInt(1, Math.toIntExact(id));
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.updateString("title", product.getTitle());
-            resultSet.updateInt(3, Math.toIntExact(product.getCategory().getId()));
+            resultSet.updateLong(3, product.getCategory().getId());
             resultSet.updateString("brand", product.getBrand());
             resultSet.updateString("color", product.getColor());
             resultSet.updateDouble("weight", product.getWeight());
@@ -62,9 +62,9 @@ public class ProductDaoJdbcImpl implements ProductDao {
                         "FROM product as p " +
                         "LEFT JOIN category as c ON p.category_id = c.id " +
                         "WHERE p.id=(?)")) {
-            preparedStatement.setInt(1, Math.toIntExact(id));
+            preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
-            product.setId((long) rs.getInt(1));
+            product.setId(rs.getLong(1));
             product.setTitle(rs.getString(2));
             Category category = new Category();
             category.setId(rs.getLong(3));

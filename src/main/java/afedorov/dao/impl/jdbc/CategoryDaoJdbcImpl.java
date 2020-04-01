@@ -25,7 +25,7 @@ public class CategoryDaoJdbcImpl implements CategoryDao {
     public void remove(Long id) {
         try(Connection connection = getConnection();
         PreparedStatement prepStat = connection.prepareStatement("DELETE FROM category WHERE id = (?)")) {
-            prepStat.setString(1, String.valueOf(id));
+            prepStat.setLong(1, id);
             prepStat.executeUpdate();
         } catch (SQLException exc) {
             exc.printStackTrace();
@@ -59,7 +59,7 @@ public class CategoryDaoJdbcImpl implements CategoryDao {
         ResultSet resultSet;
         try (Connection connection = getConnection();
              PreparedStatement prepStat = connection.prepareStatement("SELECT * FROM category WHERE id=(?)")) {
-            prepStat.setInt(1, Math.toIntExact(id));
+            prepStat.setLong(1, id);
             resultSet = prepStat.executeQuery();
             Long idCat  = resultSet.getLong( 1);
             String title = resultSet.getString("title");
