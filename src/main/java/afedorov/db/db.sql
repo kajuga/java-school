@@ -57,38 +57,38 @@ INSERT INTO paymentState (id, p_state) VALUES (DEFAULT, 'ERROR');
 CREATE TABLE product (
     id SERIAL PRIMARY KEY NOT NULL ,
     title VARCHAR(50) NOT NULL ,
-    category VARCHAR(50) NOT NULL,
+    category_id INTEGER REFERENCES category(id) NOT NULL,
     brand VARCHAR(30) NOT NULL ,
     color VARCHAR(30) NOT NULL ,
-    weight DEC,
-    price money NOT NULL ,
+    weight DEC NOT NULL ,
+    price NUMERIC(5, 2) NOT NULL ,
     description VARCHAR(100) ,
     count INTEGER not null
 );
-INSERT INTO product (title, category, brand, color, weight, price, description, count) VALUES (
-'War and piece', 'book', 'Eksmo', 'Black', 2.44, 15.55, 'Cool book', 100);
-INSERT INTO product (title, category, brand, color, weight, price, description, count) VALUES (
-'Mein Kampf', 'book', 'Adolf inc.', 'Red', 12.80, 65.30, 'Bad book', 5);
-INSERT INTO product (title, category, brand, color, weight, price, description, count) VALUES (
-'Snickers', 'food', 'Coca-cola', 'Brown', 0.90, 0.5, 'Chokolate delicoius', 1000);
-INSERT INTO product (title, category, brand, color, weight, price, description, count) VALUES (
-'Banana', 'food', 'Equador banana', 'Yellow', 0.90, 0.10, 'Fresh fruit', 10000);
-INSERT INTO product (title, category, brand, color, weight, price, description, count) VALUES (
-'DELL Vostro 7700k', 'pc', 'DELL', 'Silver', 20.50, 450.00, 'best PC', 5);
-INSERT INTO product (title, category, brand, color, weight, price, description, count) VALUES (
-'MacBook air', 'laptop', 'Apple', 'Silver', 70.50, 1450.00, 'none', 2);
-INSERT INTO product (title, category, brand, color, weight, price, description, count) VALUES (
-'ZenBook earth', 'laptop', 'Asus', 'Black', 90.30, 850.00, 'none', 25);
-INSERT INTO product (title, category, brand, color, weight, price, description, count) VALUES (
-'Iphone XR', 'smartphone', 'Apple', 'Silver', 10.50, 1250.00, 'none', 14);
-INSERT INTO product (title, category, brand, color, weight, price, description, count) VALUES (
-'Mate 20', 'smartphone', 'Huawei', 'Blue', 10.00, 450.00, 'none', 6);
-INSERT INTO product (title, category, brand, color, weight, price, description, count) VALUES (
-'Note 5', 'smartphone', 'Xiaomi', 'Black', 8.00, 50.00, 'топ за свои деньги', 6000);
-INSERT INTO product (title, category, brand, color, weight, price, description, count) VALUES (
-'Kingman air', 'wear', 'Nike', 'Black', 870.50, 200.00, 'none', 21);
-INSERT INTO product (title, category, brand, color, weight, price, description, count) VALUES (
-'Wd 623', 'wear', 'New Balance', 'Blue', 950.50, 150.00, 'none', 22);
+INSERT INTO product (title, category_id, brand, color, weight, price, description, count) VALUES (
+'War and piece', 1, 'Eksmo', 'Black', 2.44, 15.55, 'Cool book', 100);
+INSERT INTO product (title, category_id, brand, color, weight, price, description, count) VALUES (
+'Mein Kampf', 1, 'Adolf inc.', 'Red', 12.80, 65.30, 'Bad book', 5);
+INSERT INTO product (title, category_id, brand, color, weight, price, description, count) VALUES (
+'Snickers', 2, 'Coca-cola', 'Brown', 0.90, 0.5, 'Chokolate delicoius', 1000);
+INSERT INTO product (title, category_id, brand, color, weight, price, description, count) VALUES (
+'Banana', 2, 'Equador banana', 'Yellow', 0.90, 0.10, 'Fresh fruit', 10000);
+INSERT INTO product (title, category_id, brand, color, weight, price, description, count) VALUES (
+'DELL Vostro 7700k', 3, 'DELL', 'Silver', 20.50, 450.00, 'best PC', 5);
+INSERT INTO product (title, category_id, brand, color, weight, price, description, count) VALUES (
+'MacBook air', 4, 'Apple', 'Silver', 70.50, 1450.00, 'none', 2);
+INSERT INTO product (title, category_id, brand, color, weight, price, description, count) VALUES (
+'ZenBook earth', 4, 'Asus', 'Black', 90.30, 850.00, 'none', 25);
+INSERT INTO product (title, category_id, brand, color, weight, price, description, count) VALUES (
+'Iphone XR', 5, 'Apple', 'Silver', 10.50, 1250.00, 'none', 14);
+INSERT INTO product (title, category_id, brand, color, weight, price, description, count) VALUES (
+'Mate 20', 5, 'Huawei', 'Blue', 10.00, 450.00, 'none', 6);
+INSERT INTO product (title, category_id, brand, color, weight, price, description, count) VALUES (
+'Note 5', 5, 'Xiaomi', 'Black', 8.00, 50.00, 'топ за свои деньги', 6000);
+INSERT INTO product (title, category_id, brand, color, weight, price, description, count) VALUES (
+'Kingman air', 6, 'Nike', 'Black', 870.50, 200.00, 'none', 21);
+INSERT INTO product (title, category_id, brand, color, weight, price, description, count) VALUES (
+'Wd 623', 6, 'New Balance', 'Blue', 950.50, 150.00, 'none', 22);
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY NOT NULL ,
@@ -133,7 +133,7 @@ CREATE TABLE orders (
     deliveryMethod varchar (50) NOT NULL ,
     paymentState varchar (50) NOT NULL ,
     orderStatus varchar (50) NOT NULL ,
-    orderCost money
+    orderCost NUMERIC(5, 2)
 );
 INSERT INTO orders (user_id, address_id, paymentMethod, deliveryMethod, paymentState, orderStatus, orderCost)
 VALUES (1, 1, 'CASH', 'post', 'AWAITING_PAYMENT', 'CREATED', 100);
@@ -145,22 +145,32 @@ VALUES (3, 3, 'CASH', 'post', 'AWAITING_PAYMENT', 'CREATED', 20);
 CREATE TABLE productInCart (
     id SERIAL PRIMARY KEY not null ,
     order_id INTEGER NOT NULL REFERENCES orders(id),
-    id_product INTEGER NOT NULL REFERENCES product(id),
-    price money not null,
+    product_id INTEGER NOT NULL REFERENCES product(id),
+    price numeric (5, 2) not null,
     count INTEGER NOT NULL
 );
-INSERT INTO productInCart (order_id, id_product, price, count) VALUES (1, 1, 15.55, 3);
-INSERT INTO productInCart (order_id, id_product, price, count) VALUES (1, 2, 65.30, 2);
-INSERT INTO productInCart (order_id, id_product, price, count) VALUES (1, 5, 450.00, 1);
-INSERT INTO productInCart (order_id, id_product, price, count) VALUES (2, 6, 1450.00, 1);
-INSERT INTO productInCart (order_id, id_product, price, count) VALUES (2, 8, 1250.00, 1);
-INSERT INTO productInCart (order_id, id_product, price, count) VALUES (2, 12, 150.00, 2);
-INSERT INTO productInCart (order_id, id_product, price, count) VALUES (3, 3, 0.5, 10);
-INSERT INTO productInCart (order_id, id_product, price, count) VALUES (3, 4, 0.10, 12);
-INSERT INTO productInCart (order_id, id_product, price, count) VALUES (3, 7, 850.00, 1);
-INSERT INTO productInCart (order_id, id_product, price, count) VALUES (3, 9, 50.00, 2);
-INSERT INTO productInCart (order_id, id_product, price, count) VALUES (3, 10, 200.00, 1);
+INSERT INTO productInCart (order_id, product_id, price, count) VALUES (1, 1, 15.55, 3);
+INSERT INTO productInCart (order_id, product_id, price, count) VALUES (1, 2, 65.30, 2);
+INSERT INTO productInCart (order_id, product_id, price, count) VALUES (1, 5, 450.00, 1);
+INSERT INTO productInCart (order_id, product_id, price, count) VALUES (2, 6, 1450.00, 1);
+INSERT INTO productInCart (order_id, product_id, price, count) VALUES (2, 8, 1250.00, 1);
+INSERT INTO productInCart (order_id, product_id, price, count) VALUES (2, 12, 150.00, 2);
+INSERT INTO productInCart (order_id, product_id, price, count) VALUES (3, 3, 0.5, 10);
+INSERT INTO productInCart (order_id, product_id, price, count) VALUES (3, 4, 0.10, 12);
+INSERT INTO productInCart (order_id, product_id, price, count) VALUES (3, 7, 850.00, 1);
+INSERT INTO productInCart (order_id, product_id, price, count) VALUES (3, 9, 50.00, 2);
+INSERT INTO productInCart (order_id, product_id, price, count) VALUES (3, 10, 200.00, 1);
 
+
+
+SELECT p.id, p.title, p.category_id, c.title as category_title, p.brand, p.color, p.weight, p.price, p.description, p.count
+FROM product as p LEFT JOIN category as c ON p.category_id = c.id WHERE p.id=1;
+
+SELECT p.id, p.title, p.category_id, c.title, p.brand, p.color, p.weight, p.price, p.description, p.count
+    FROM product AS p LEFT JOIN category AS c ON p.category_id = c.id WHERE p.title='Banana';
+
+SELECT p.id, p.title, p.category_id, c.title AS category_title, p.brand, p.color, p.weight, p.price, p.description, p.count
+FROM product as p LEFT JOIN category c on p.category_id = c.id;
 
 
 drop table productInCart;

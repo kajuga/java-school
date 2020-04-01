@@ -2,6 +2,7 @@ package afedorov.settings;
 
 import afedorov.dao.impl.inmemory.*;
 import afedorov.dao.impl.jdbc.CategoryDaoJdbcImpl;
+import afedorov.dao.impl.jdbc.ProductDaoJdbcImpl;
 import afedorov.dao.interfaces.*;
 
 import javax.servlet.ServletContext;
@@ -20,7 +21,7 @@ public class ServiceManager {
 		this.categoryDao = new CategoryDaoJdbcImpl();
 		this.orderDao = new OrderDaoImpl();
 		this.userDao = new UserDaoImpl();
-		this.productDao = new ProductDaoImpl();
+		this.productDao = new ProductDaoJdbcImpl();
 	}
 
 	public static synchronized ServiceManager getInstance(ServletContext context) {
