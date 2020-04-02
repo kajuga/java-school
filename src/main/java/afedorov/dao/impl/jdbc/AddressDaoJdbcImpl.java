@@ -2,8 +2,11 @@ package afedorov.dao.impl.jdbc;
 
 import afedorov.dao.interfaces.AddressDao;
 import afedorov.entities.Address;
+import afedorov.entities.User;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AddressDaoJdbcImpl implements AddressDao {
@@ -55,32 +58,100 @@ public class AddressDaoJdbcImpl implements AddressDao {
 
     @Override
     public Address findByUserID(Long id) {
-        try(PreparedStatement prepStatment = getConnection().prepareStatement("SELECT * FROM address WHERE user_id = (?)")) {
+        Address address = new Address();
+        try(PreparedStatement prepStatment = getConnection().prepareStatement("SELECT a.id, a.user_id, u.name AS user_name, u.lastName AS user_lastname, u.birthDate as user_birthdate, u.role AS user_role,\n" +
+                "u.mail AS user_email, u.password AS user_password, a.country, a.city, a.postcode, a.street, a.houseNumber, a.room, a.phone FROM address AS a\n" +
+                "LEFT JOIN users AS u on a.user_id = u.id WHERE a.user_id = (?)")) {
             prepStatment.setLong(1, id);
             ResultSet resultSet = prepStatment.executeQuery();
-            Address address = new Address();
+            User user = new User();
             address.setId(resultSet.getLong(1));
-            address.setId(resultSet.getLong(1));
-            address.setId(resultSet.getLong(1));
-            address.setId(resultSet.getLong(1));
-            address.setId(resultSet.getLong(1));
-            address.setId(resultSet.getLong(1));
-            address.setId(resultSet.getLong(1));
-            address.setId(resultSet.getLong(1));
-
+            user.setId(resultSet.getLong(2));
+            user.setName(resultSet.getString(3));
+            user.setLastName(resultSet.getString(4));
+            user.setBirthDate(resultSet.getObject(5, LocalDate.class));
+            user.setRole(resultSet.getNString(6));
+            user.setMail(resultSet.getString(7));
+            user.setPassword(resultSet.getString(8));
+            address.setUser(user);
+            address.setCountry(resultSet.getString(9));
+            address.setCity(resultSet.getString(10));
+            address.setPostcode(resultSet.getInt(11));
+            address.setStreet(resultSet.getString(12));
+            address.setHouseNumber(resultSet.getString(13));
+            address.setRoom(resultSet.getString(14));
+            address.setPhone(resultSet.getString(15));
         }catch (SQLException exc) {
             exc.printStackTrace();
         }
+        return address;
     }
 
     @Override
     public Address findById(Long id) {
-        return null;
+        Address address = new Address();
+        try(PreparedStatement prepStatment = getConnection().prepareStatement("SELECT a.id, a.user_id, u.name AS user_name, u.lastName AS user_lastname, u.birthDate as user_birthdate, u.role AS user_role,\n" +
+                "u.mail AS user_email, u.password AS user_password, a.country, a.city, a.postcode, a.street, a.houseNumber, a.room, a.phone FROM address AS a\n" +
+                "LEFT JOIN users AS u on a.user_id = u.id WHERE a.id = (?)")) {
+            prepStatment.setLong(1, id);
+            ResultSet resultSet = prepStatment.executeQuery();
+            User user = new User();
+            address.setId(resultSet.getLong(1));
+            user.setId(resultSet.getLong(2));
+            user.setName(resultSet.getString(3));
+            user.setLastName(resultSet.getString(4));
+            user.setBirthDate(resultSet.getObject(5, LocalDate.class));
+            user.setRole(resultSet.getNString(6));
+            user.setMail(resultSet.getString(7));
+            user.setPassword(resultSet.getString(8));
+            address.setUser(user);
+            address.setCountry(resultSet.getString(9));
+            address.setCity(resultSet.getString(10));
+            address.setPostcode(resultSet.getInt(11));
+            address.setStreet(resultSet.getString(12));
+            address.setHouseNumber(resultSet.getString(13));
+            address.setRoom(resultSet.getString(14));
+            address.setPhone(resultSet.getString(15));
+        }catch (SQLException exc) {
+            exc.printStackTrace();
+        }
+        return address;
     }
 
     @Override
     public List<Address> findAll() {
-        return null;
+        List<Address> addresses = new ArrayList<>();
+        ResultSet resultSet;
+
+        try(Statement statement = getConnection().createStatement()) {
+            resultSet = statement.executeQuery("SELECT a.id, a.user_id, u.name AS user_name, u.lastName AS user_lastname, u.birthDate as user_birthdate, u.role AS user_role,\n" +
+                    "u.mail AS user_email, u.password AS user_password, a.country, a.city, a.postcode, a.street, a.houseNumber, a.room, a.phone FROM address AS a\n" +
+                    "LEFT JOIN users AS u on a.user_id = u.id ");
+            while (resultSet.next()) {
+                Address address = new Address();
+                User user = new User();
+                address.setId(resultSet.getLong(1));
+                user.setId(resultSet.getLong(2));
+                user.setName(resultSet.getString(3));
+                user.setLastName(resultSet.getString(4));
+                user.setBirthDate(resultSet.getObject(5, LocalDate.class));
+                user.setRole(resultSet.getNString(6));
+                user.setMail(resultSet.getString(7));
+                user.setPassword(resultSet.getString(8));
+                address.setUser(user);
+                address.setCountry(resultSet.getString(9));
+                address.setCity(resultSet.getString(10));
+                address.setPostcode(resultSet.getInt(11));
+                address.setStreet(resultSet.getString(12));
+                address.setHouseNumber(resultSet.getString(13));
+                address.setRoom(resultSet.getString(14));
+                address.setPhone(resultSet.getString(15));
+                addresses.add(address);
+            }
+        }catch (SQLException exc) {
+            exc.printStackTrace();
+        }
+        return addresses;
     }
 
     private Connection getConnection(){

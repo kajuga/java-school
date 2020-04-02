@@ -175,7 +175,11 @@ FROM product as p LEFT JOIN category c on p.category_id = c.id;
 
 SELECT * FROM address where id= 1;
 
-SELECT a.id, a.user_id, u.name AS user_name, u.lastName, u.birthDate, u.role, u.mail, u.password
+SELECT a.id, a.user_id, u.name AS user_name, u.lastName AS user_lastname, u.birthDate as user_birthdate, u.role AS user_role,
+u.mail AS user_email, u.password AS user_password, a.country, a.city, a.postcode, a.street, a.houseNumber, a.room, a.phone FROM address AS a
+LEFT JOIN users AS u on a.user_id = u.id WHERE a.user_id = 1;
+
+SELECT * FROM users WHERE id=1;
 
 
 drop table productInCart;
