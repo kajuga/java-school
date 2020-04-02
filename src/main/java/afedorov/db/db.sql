@@ -131,8 +131,8 @@ CREATE TABLE orders (
     address_id INTEGER NOT NULL REFERENCES address(id),
     paymentMethod varchar (50) NOT NULL ,
     deliveryMethod varchar (50) NOT NULL ,
-    paymentState varchar (50) NOT NULL ,
-    orderStatus varchar (50) NOT NULL ,
+    paymentState varchar (50) DEFAULT 'AWAITING_PAYMENT' NOT NULL ,
+    orderStatus varchar (50) DEFAULT 'CREATED' NOT NULL ,
     orderCost NUMERIC(5, 2)
 );
 INSERT INTO orders (user_id, address_id, paymentMethod, deliveryMethod, paymentState, orderStatus, orderCost)
@@ -180,6 +180,17 @@ u.mail AS user_email, u.password AS user_password, a.country, a.city, a.postcode
 LEFT JOIN users AS u on a.user_id = u.id WHERE a.user_id = 1;
 
 SELECT * FROM users WHERE id=1;
+
+SELECT * FROM orders LEFT JOIN (SELECT * FROM users) as usr ON orders.user_id = usr.id WHERE orders.id = 2;
+
+
+SELECT o.id, o.user_id, o.address_id, o.paymentMethod, o.deliveryMethod, o.paymentState, o.orderStatus, o.orderCost,
+        u.name, u.lastName, u.birthDate, u.role, u.mail, u.password,
+        a.country, a.city, a.postcode, a.street, a.houseNumber, a.room, a.phone, pm.id, pm.p_method,  d.id, d.method, ps.id, ps.p_state
+FROM orders AS o LEFT JOIN users AS u ON o.user_id = u.id LEFT JOIN address AS a ON o.address_id = a.id LEFT JOIN paymentMethod AS pm ON o.paymentMethod = pm.p_method
+    LEFT JOIN delivery AS d ON o.deliveryMethod = d.method LEFT JOIN paymentState AS ps ON o.paymentState=ps.p_state WHERE o.id=1;
+
+SELECT p.product_id, p.price, p.count FROM productInCart AS p WHERE p.order_id = 1;
 
 
 drop table productInCart;
