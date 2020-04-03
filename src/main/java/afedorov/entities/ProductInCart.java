@@ -13,6 +13,6 @@ public class ProductInCart {
     private String brand;
     private String color;
     private double weight;
-    private BigDecimal price;
     private String description;
+    private BigDecimal price;
 }

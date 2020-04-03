@@ -61,7 +61,7 @@ CREATE TABLE product (
     brand VARCHAR(30) NOT NULL ,
     color VARCHAR(30) NOT NULL ,
     weight DEC NOT NULL ,
-    price NUMERIC(5, 2) NOT NULL ,
+    price NUMERIC(6, 2) NOT NULL ,
     description VARCHAR(100) ,
     count INTEGER not null
 );
@@ -152,9 +152,9 @@ CREATE TABLE productInCart (
 INSERT INTO productInCart (order_id, product_id, price, count) VALUES (1, 1, 15.55, 3);
 INSERT INTO productInCart (order_id, product_id, price, count) VALUES (1, 2, 65.30, 2);
 INSERT INTO productInCart (order_id, product_id, price, count) VALUES (1, 5, 450.00, 1);
-INSERT INTO productInCart (order_id, product_id, price, count) VALUES (2, 6, 1450.00, 1);
-INSERT INTO productInCart (order_id, product_id, price, count) VALUES (2, 8, 1250.00, 1);
-INSERT INTO productInCart (order_id, product_id, price, count) VALUES (2, 12, 150.00, 2);
+INSERT INTO productInCart (order_id, product_id, price, count) VALUES (2, 6, 750.00, 1);
+INSERT INTO productInCart (order_id, product_id, price, count) VALUES (2, 8, 950.00, 1);
+INSERT INTO productInCart (order_id, product_id, price, count) VALUES (2, 10, 150.00, 2);
 INSERT INTO productInCart (order_id, product_id, price, count) VALUES (3, 3, 0.5, 10);
 INSERT INTO productInCart (order_id, product_id, price, count) VALUES (3, 4, 0.10, 12);
 INSERT INTO productInCart (order_id, product_id, price, count) VALUES (3, 7, 850.00, 1);
@@ -190,7 +190,29 @@ SELECT o.id, o.user_id, o.address_id, o.paymentMethod, o.deliveryMethod, o.payme
 FROM orders AS o LEFT JOIN users AS u ON o.user_id = u.id LEFT JOIN address AS a ON o.address_id = a.id LEFT JOIN paymentMethod AS pm ON o.paymentMethod = pm.p_method
     LEFT JOIN delivery AS d ON o.deliveryMethod = d.method LEFT JOIN paymentState AS ps ON o.paymentState=ps.p_state WHERE o.id=1;
 
-SELECT p.product_id, p.price, p.count FROM productInCart AS p WHERE p.order_id = 1;
+SELECT p.product_id, p.price, p.count ,  (p.price * p.count) AS summary FROM productInCart AS p WHERE p.order_id = 1;
+SELECT p.product_id, p.count FROM productInCart AS p WHERE p.order_id = 1;
+
+SELECT p_cart.order_id, p_cart.product_id, p_cart.count AS count_incart,
+       p.title, p.category_id, c.title, p.brand, p.color, p.weight, p.price AS price_of_this_date, p.description
+       FROM productInCart AS p_cart LEFT JOIN product p ON p_cart.product_id = p.id LEFT JOIN category AS c ON p.category_id = c.id where p_cart.order_id=(?);
+
+
+
+SELECT o.id, o.user_id, o.address_id, o.paymentMethod, o.deliveryMethod, o.paymentState, o.orderStatus, o.orderCost FROM orders AS o;
+SELECT p_cart.id, p_cart.order_id, p_cart.product_id, p_cart.price AS old_price, p_cart.count, (p_cart.price * p_cart.count) AS summary_Oldprice, p.price AS current_price, (p_cart.count * p.price) AS current_price FROM productInCart AS p_cart LEFT JOIN product AS p ON p_cart.product_id = p.id;
+
+
+SELECT o.user_id, o.address_id, o.paymentMethod, o.deliveryMethod, o.orderCost FROM orders AS o WHERE o.id = 1;
+
+SELECT p_cart.product_id, p_cart.count, pr.price AS current_price_per_one, (p_cart.count * pr.price) AS current_summar_price_for_position
+FROM productInCart AS p_cart LEFT JOIN product AS pr ON p_cart.product_id = pr.id WHERE p_cart.order_id = 1;
+
+SELECT sum(current_summar_price_for_position) FROM
+(SELECT p_cart.count, (p_cart.count * pr.price) AS current_summar_price_for_position
+FROM productInCart AS p_cart LEFT JOIN product AS pr ON p_cart.product_id = pr.id WHERE p_cart.order_id = 1) AS q;
+
+
 
 
 drop table productInCart;
