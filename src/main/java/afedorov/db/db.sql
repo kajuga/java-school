@@ -212,6 +212,29 @@ SELECT sum(current_summar_price_for_position) FROM
 (SELECT p_cart.count, (p_cart.count * pr.price) AS current_summar_price_for_position
 FROM productInCart AS p_cart LEFT JOIN product AS pr ON p_cart.product_id = pr.id WHERE p_cart.order_id = 1) AS q;
 
+-- findById in Orders
+-- Собрал тут все кроме продкутов в корзине
+SELECT o.id AS order_id, o.paymentMethod, o.deliveryMethod, o.paymentState, o.orderStatus, o.orderCost,
+       u.id AS user_id, u.name, u.lastName, u.birthDate, u.role, u.mail, u.password,
+       a.id AS address_id, a.country, a.city, a.postcode, a.street, a.houseNumber, a.room, a.phone
+           from orders AS o LEFT JOIN users AS u ON o.user_id = u.id LEFT JOIN address AS a on u.id = a.user_id WHERE o.id = (1);
+-- Собираю корзину
+SELECT prc.id, prc.order_id AS order_id, prc.count AS count_in_cart, prc.price AS prod_in_cart_price, (prc.count * prc.price) AS summar_cost,
+       pr.title AS product_title, cat.id AS cat_id, cat.title as category_title, pr.brand, pr.color, pr.weight, pr.description from productInCart AS prc LEFT JOIN product AS pr on prc.product_id = pr.id
+LEFT JOIN category AS cat ON pr.category_id = cat.id WHERE prc.order_id = (?);
+-- считаю суммарную стоимость заказа не момент когда был сделан
+SELECT sum(summar_cost) FROM(SELECT  (prc.count * prc.price) AS summar_cost
+       from productInCart AS prc LEFT JOIN product AS pr on prc.product_id = pr.id
+LEFT JOIN category AS cat ON pr.category_id = cat.id WHERE prc.order_id = (?)) as q;
+-- ============================================================================================
+-- for FindByUser orders
+SELECT id FROM orders WHERE orders.user_id = (?);
+-- ==============================================================================================
+-- for update OrderStatus
+
+UPDATE orders SET orderStatus = (?) where orders.id = id;
+
+
 
 
 

@@ -1,8 +1,7 @@
 package afedorov.settings;
 
 import afedorov.dao.impl.inmemory.*;
-import afedorov.dao.impl.jdbc.CategoryDaoJdbcImpl;
-import afedorov.dao.impl.jdbc.ProductDaoJdbcImpl;
+import afedorov.dao.impl.jdbc.*;
 import afedorov.dao.interfaces.*;
 
 import javax.servlet.ServletContext;
@@ -17,10 +16,10 @@ public class ServiceManager {
 	private final ProductDao productDao;
 
 	private ServiceManager(ServletContext context) {
-		this.addressDao = new AddressDaoImpl();
+		this.addressDao = new AddressDaoJdbcImpl();
 		this.categoryDao = new CategoryDaoJdbcImpl();
-		this.orderDao = new OrderDaoImpl();
-		this.userDao = new UserDaoImpl();
+		this.orderDao = new OrderDaoJdbcImpl();
+		this.userDao = new UserDaoJdbcImpl();
 		this.productDao = new ProductDaoJdbcImpl();
 	}
 
