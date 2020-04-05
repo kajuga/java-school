@@ -61,10 +61,12 @@ public class CategoryDaoJdbcImpl implements CategoryDao {
              PreparedStatement prepStat = connection.prepareStatement("SELECT * FROM category WHERE id=(?)")) {
             prepStat.setLong(1, id);
             resultSet = prepStat.executeQuery();
-            Long idCat  = resultSet.getLong( 1);
-            String title = resultSet.getString("title");
-            category.setId(idCat);
-            category.setTitle(title);
+            while (resultSet.next()) {
+                Long idCat = resultSet.getLong(1);
+                String title = resultSet.getString("title");
+                category.setId(idCat);
+                category.setTitle(title);
+            }
         } catch (SQLException exc) {
             exc.printStackTrace();
         }
@@ -78,8 +80,10 @@ public class CategoryDaoJdbcImpl implements CategoryDao {
         try (Connection connection = getConnection();
              PreparedStatement prepStat = connection.prepareStatement("SELECT * FROM  category WHERE title=(?)")) {
             resultSet = prepStat.executeQuery(title);
-            category.setId(resultSet.getLong(1));
-            category.setTitle(resultSet.getString(2));
+            while (resultSet.next()) {
+                category.setId(resultSet.getLong(1));
+                category.setTitle(resultSet.getString(2));
+            }
         } catch (SQLException exc) {
             exc.printStackTrace();
         }

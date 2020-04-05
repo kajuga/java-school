@@ -2,6 +2,7 @@ package afedorov.dao.impl.jdbc;
 
 import afedorov.dao.interfaces.UserDao;
 import afedorov.entities.User;
+import afedorov.exceptions.EntityExistException;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -12,6 +13,10 @@ public class UserDaoJdbcImpl implements UserDao {
 
     @Override
     public void add(User user) {
+        User findedByMail = findByMail(user.getMail());
+        if (findedByMail != null) {
+            throw new EntityExistException("Клиент уже существует");
+        }
         try (PreparedStatement preparedStatement = getConnection().prepareStatement("INSERT INTO users (name, lastname, birthdate, role, mail, password)" +
                 " VALUES (?,?,?,?,?,?)")){
             preparedStatement.setString(1,user.getName());
@@ -43,13 +48,15 @@ public class UserDaoJdbcImpl implements UserDao {
         try(PreparedStatement preparedStatement = getConnection().prepareStatement("SELECT * FROM users WHERE id=(?)")) {
             preparedStatement.setLong(1, id);
             resultSet = preparedStatement.executeQuery();
-            user.setId(resultSet.getLong(1));
-            user.setName(resultSet.getString(2));
-            user.setLastName(resultSet.getString(3));
-            user.setBirthDate(resultSet.getObject(3, LocalDate.class));
-            user.setRole(resultSet.getNString(5));
-            user.setMail(resultSet.getString(6));
-            user.setPassword(resultSet.getString(7));
+            while (resultSet.next()) {
+                user.setId(resultSet.getLong(1));
+                user.setName(resultSet.getString(2));
+                user.setLastName(resultSet.getString(3));
+                user.setBirthDate(resultSet.getObject(3, LocalDate.class));
+                user.setRole(resultSet.getNString(5));
+                user.setMail(resultSet.getString(6));
+                user.setPassword(resultSet.getString(7));
+            }
         } catch (SQLException exc) {
             exc.printStackTrace();
         }
@@ -58,22 +65,24 @@ public class UserDaoJdbcImpl implements UserDao {
 
     @Override
     public User findByMail(String mail) {
-        User user = new User();
-        ResultSet resultSet = null;
         try(PreparedStatement preparedStatement = getConnection().prepareStatement("SELECT * FROM users WHERE mail=(?)")) {
             preparedStatement.setString(1, mail);
-            resultSet = preparedStatement.executeQuery();
-            user.setId(resultSet.getLong(1));
-            user.setName(resultSet.getString(2));
-            user.setLastName(resultSet.getString(3));
-            user.setBirthDate(resultSet.getObject(3, LocalDate.class));
-            user.setRole(resultSet.getNString(5));
-            user.setMail(resultSet.getString(6));
-            user.setPassword(resultSet.getString(7));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                User user = new User();
+                user.setId(resultSet.getLong(1));
+                user.setName(resultSet.getString(2));
+                user.setLastName(resultSet.getString(3));
+                user.setBirthDate(resultSet.getDate(4).toLocalDate());
+                user.setRole(resultSet.getString(5));
+                user.setMail(resultSet.getString(6));
+                user.setPassword(resultSet.getString(7));
+                return user;
+            }
         } catch (SQLException exc) {
             exc.printStackTrace();
         }
-        return user;
+        return null;
     }
 
     @Override
@@ -82,12 +91,14 @@ public class UserDaoJdbcImpl implements UserDao {
         try(PreparedStatement preparedStatement = getConnection().prepareStatement("SELECT * FROM users WHERE id=(?)")) {
             preparedStatement.setLong(1, id);
             resultSet = preparedStatement.executeQuery();
-            resultSet.updateString(2, user.getName());
-            resultSet.updateString(3, user.getLastName());
-            resultSet.updateDate(4, Date.valueOf(user.getBirthDate()));
-            resultSet.updateString(5, user.getRole());
-            resultSet.updateString(6, user.getMail());
-            resultSet.updateString(7, user.getPassword());
+            while (resultSet.next()) {
+                resultSet.updateString(2, user.getName());
+                resultSet.updateString(3, user.getLastName());
+                resultSet.updateDate(4, Date.valueOf(user.getBirthDate()));
+                resultSet.updateString(5, user.getRole());
+                resultSet.updateString(6, user.getMail());
+                resultSet.updateString(7, user.getPassword());
+            }
         } catch (SQLException exc) {
             exc.printStackTrace();
         }

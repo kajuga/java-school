@@ -44,13 +44,15 @@ public class AddressDaoJdbcImpl implements AddressDao {
         try(PreparedStatement prepStatment = getConnection().prepareStatement("SELECT * FROM address WHERE id = (?)")) {
             prepStatment.setLong(1, id);
             ResultSet resultSet = prepStatment.executeQuery();
-            resultSet.updateString(3, address.getCountry());
-            resultSet.updateString(4, address.getCity());
-            resultSet.updateInt(5, address.getPostcode());
-            resultSet.updateString(6, address.getStreet());
-            resultSet.updateString(7, address.getHouseNumber());
-            resultSet.updateString(8, address.getRoom());
-            resultSet.updateString(9, address.getPhone());
+            while (resultSet.next()) {
+                resultSet.updateString(3, address.getCountry());
+                resultSet.updateString(4, address.getCity());
+                resultSet.updateInt(5, address.getPostcode());
+                resultSet.updateString(6, address.getStreet());
+                resultSet.updateString(7, address.getHouseNumber());
+                resultSet.updateString(8, address.getRoom());
+                resultSet.updateString(9, address.getPhone());
+            }
         }catch (SQLException exc) {
             exc.printStackTrace();
         }
@@ -64,23 +66,25 @@ public class AddressDaoJdbcImpl implements AddressDao {
                 "LEFT JOIN users AS u on a.user_id = u.id WHERE a.user_id = (?)")) {
             prepStatment.setLong(1, id);
             ResultSet resultSet = prepStatment.executeQuery();
-            User user = new User();
-            address.setId(resultSet.getLong(1));
-            user.setId(resultSet.getLong(2));
-            user.setName(resultSet.getString(3));
-            user.setLastName(resultSet.getString(4));
-            user.setBirthDate(resultSet.getObject(5, LocalDate.class));
-            user.setRole(resultSet.getNString(6));
-            user.setMail(resultSet.getString(7));
-            user.setPassword(resultSet.getString(8));
-            address.setUser(user);
-            address.setCountry(resultSet.getString(9));
-            address.setCity(resultSet.getString(10));
-            address.setPostcode(resultSet.getInt(11));
-            address.setStreet(resultSet.getString(12));
-            address.setHouseNumber(resultSet.getString(13));
-            address.setRoom(resultSet.getString(14));
-            address.setPhone(resultSet.getString(15));
+            while (resultSet.next()) {
+                User user = new User();
+                address.setId(resultSet.getLong(1));
+                user.setId(resultSet.getLong(2));
+                user.setName(resultSet.getString(3));
+                user.setLastName(resultSet.getString(4));
+                user.setBirthDate(resultSet.getObject(5, LocalDate.class));
+                user.setRole(resultSet.getNString(6));
+                user.setMail(resultSet.getString(7));
+                user.setPassword(resultSet.getString(8));
+                address.setUser(user);
+                address.setCountry(resultSet.getString(9));
+                address.setCity(resultSet.getString(10));
+                address.setPostcode(resultSet.getInt(11));
+                address.setStreet(resultSet.getString(12));
+                address.setHouseNumber(resultSet.getString(13));
+                address.setRoom(resultSet.getString(14));
+                address.setPhone(resultSet.getString(15));
+            }
         }catch (SQLException exc) {
             exc.printStackTrace();
         }

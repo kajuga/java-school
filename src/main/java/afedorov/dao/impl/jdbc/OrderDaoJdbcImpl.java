@@ -31,13 +31,15 @@ public class OrderDaoJdbcImpl implements OrderDao {
         try (PreparedStatement preparedStatement = getConnection().prepareStatement("SELECT * FROM orders WHERE id=(?)")) {
             preparedStatement.setInt(1, Math.toIntExact(id));
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.updateLong(2, newOrder.getUser().getId());
-            resultSet.updateLong(3, newOrder.getAddress().getId());
-            resultSet.updateString(4, newOrder.getPaymentMethod().name());
-            resultSet.updateString(5, newOrder.getDeliveryMethod().name());
-            resultSet.updateString(6, newOrder.getPaymentState().name());
-            resultSet.updateString(7, newOrder.getOrderStatus().name());
-            resultSet.updateBigDecimal(8, newOrder.getOrderCost());
+            while (resultSet.next()) {
+                resultSet.updateLong(2, newOrder.getUser().getId());
+                resultSet.updateLong(3, newOrder.getAddress().getId());
+                resultSet.updateString(4, newOrder.getPaymentMethod().name());
+                resultSet.updateString(5, newOrder.getDeliveryMethod().name());
+                resultSet.updateString(6, newOrder.getPaymentState().name());
+                resultSet.updateString(7, newOrder.getOrderStatus().name());
+                resultSet.updateBigDecimal(8, newOrder.getOrderCost());
+            }
         } catch (SQLException exc) {
         }
     }
