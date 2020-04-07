@@ -60,7 +60,7 @@ public class AddressEditServlet extends HttpServlet {
         HttpSession httpSession = request.getSession();
         Long idUser = (Long)(httpSession.getAttribute("userId"));
         Address address = addressDao.findByUserID(idUser);
-        if (address != null ) {
+        if (address.getId() != null ) {
             request.setAttribute("id", address.getId());
             request.setAttribute("name", address.getUser().getName());
             request.setAttribute("lastName", address.getUser().getLastName());
@@ -74,7 +74,7 @@ public class AddressEditServlet extends HttpServlet {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/addresses/updateAddress.jsp");
             dispatcher.forward(request, response);
         } else if (idUser != null) {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/addresses/viewAddress.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/addresses/createAddress.jsp");
             dispatcher.forward(request, response);
         }
         else {

@@ -5,6 +5,7 @@ import afedorov.dao.interfaces.UserDao;
 import afedorov.exceptions.EntityExistException;
 import afedorov.settings.ServiceManager;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,17 +25,23 @@ public class UserDeleteServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
-
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Long userId = (Long) request.getSession().getAttribute("userId");
         String id = request.getParameter("delete");
-        try {
-            userDao.remove(Long.parseLong(id));
-            response.sendRedirect(request.getContextPath() + "/viewUser");
-        } catch (EntityExistException e) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().println(e.getMessage());
+        if (userId != null && userId.equals(Long.parseLong(id))) {
+            try {
+                userDao.remove(Long.parseLong(id));
+                response.sendRedirect(request.getContextPath() + "/viewUser");
+            } catch (EntityExistException e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().println(e.getMessage());
+            }
+        } else {
+            //Переход на страницу с просьюой авторизоваться
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/access/errorLogin.jsp");
+            dispatcher.forward(request, response);
         }
     }
 }

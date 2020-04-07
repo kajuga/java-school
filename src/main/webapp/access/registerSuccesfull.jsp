@@ -12,7 +12,7 @@ Register successfull!
 now, you can
 
 <p>
-    <a href="${pageContext.servletContext.contextPath}/createAddress">Add delivery address</a>
+    <a href="${pageContext.servletContext.contextPath}/views/addresses/createAddress.jsp">Add delivery address</a>
 </p>
 <p><a href="${pageContext.servletContext.contextPath}/viewProduct">Посмотреть каталог продуктов</a></p>
 

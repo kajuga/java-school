@@ -111,7 +111,7 @@ public class OrderDaoJdbcImpl implements OrderDao {
             user.setId(resOrderWithoutCart.getLong(7));
             user.setName(resOrderWithoutCart.getString(8));
             user.setLastName(resOrderWithoutCart.getString(9));
-            user.setBirthDate(resOrderWithoutCart.getObject(10, LocalDate.class));
+            user.setBirthDate(resOrderWithoutCart.getDate(10));
             user.setRole(resOrderWithoutCart.getString(11));
             user.setMail(resOrderWithoutCart.getString(12));
             user.setPassword(resOrderWithoutCart.getString(13));
@@ -187,7 +187,7 @@ public class OrderDaoJdbcImpl implements OrderDao {
                     user.setId(resOrderWithoutCart.getLong(7));
                     user.setName(resOrderWithoutCart.getString(8));
                     user.setLastName(resOrderWithoutCart.getString(9));
-                    user.setBirthDate(resOrderWithoutCart.getObject(10, LocalDate.class));
+                    user.setBirthDate(resOrderWithoutCart.getDate(10));
                     user.setRole(resOrderWithoutCart.getString(11));
                     user.setMail(resOrderWithoutCart.getString(12));
                     user.setPassword(resOrderWithoutCart.getString(13));
@@ -265,7 +265,7 @@ public class OrderDaoJdbcImpl implements OrderDao {
                     user.setId(resOrderWithoutCart.getLong(7));
                     user.setName(resOrderWithoutCart.getString(8));
                     user.setLastName(resOrderWithoutCart.getString(9));
-                    user.setBirthDate(resOrderWithoutCart.getObject(10, LocalDate.class));
+                    user.setBirthDate(resOrderWithoutCart.getDate(10));
                     user.setRole(resOrderWithoutCart.getString(11));
                     user.setMail(resOrderWithoutCart.getString(12));
                     user.setPassword(resOrderWithoutCart.getString(13));
@@ -334,7 +334,7 @@ public class OrderDaoJdbcImpl implements OrderDao {
     private Connection getConnection() {
         try {
             Class.forName("org.postgresql.Driver");
-            return DriverManager.getConnection("jdbs:postgresql://localhost:5432/ishop", "kajuga", "sashok");
+            return DriverManager.getConnection("jdbc:postgresql://localhost:5432/ishop", "kajuga", "sashok");
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

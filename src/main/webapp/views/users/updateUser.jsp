@@ -11,9 +11,9 @@
     <a href="${pageContext.servletContext.contextPath}/index.jsp">Главная страница</a>
 </p>
 <div style="border:1px solid #D0D0D0;width:600px;padding:10px;">
-    <c:if test="${role=='ADMIN'}">
+<%--    <c:if test="${role=='ADMIN'}">--%>
 <form action="${pageContext.servletContext.contextPath}/editUser?id=${id}" method="POST">
-    </c:if>
+<%--    </c:if>--%>
 
     <%--    <input type="hidden" name="id" value="${id}">--%>
     <table>

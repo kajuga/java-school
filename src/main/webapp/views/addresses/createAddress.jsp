@@ -17,13 +17,13 @@
             <tr>
                 <td align="right" >First name : </td>
                 <td>
-                    <input type="text" name="name" value="${user.name}" disabled>
+                    <input type="text" name="name" value="${name}">
                 </td>
             </tr>
             <tr>
                 <td align="right" >Last name : </td>
                 <td>
-                    <input type="text" name="lastName" value="${user.lastName}" disabled>
+                    <input type="text" name="lastName" value="${lastName}">
                 </td>
             </tr>
 

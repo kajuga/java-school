@@ -41,7 +41,7 @@ public class AddressDaoJdbcImpl implements AddressDao {
 
     @Override
     public void update(Long id, Address address) {
-        try(PreparedStatement prepStatment = getConnection().prepareStatement("SELECT * FROM address WHERE id = (?)")) {
+        try(PreparedStatement prepStatment = getConnection().prepareStatement("SELECT * FROM address WHERE id = (?)", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
             prepStatment.setLong(1, id);
             ResultSet resultSet = prepStatment.executeQuery();
             while (resultSet.next()) {
@@ -52,6 +52,7 @@ public class AddressDaoJdbcImpl implements AddressDao {
                 resultSet.updateString(7, address.getHouseNumber());
                 resultSet.updateString(8, address.getRoom());
                 resultSet.updateString(9, address.getPhone());
+                resultSet.updateRow();
             }
         }catch (SQLException exc) {
             exc.printStackTrace();
@@ -72,8 +73,8 @@ public class AddressDaoJdbcImpl implements AddressDao {
                 user.setId(resultSet.getLong(2));
                 user.setName(resultSet.getString(3));
                 user.setLastName(resultSet.getString(4));
-                user.setBirthDate(resultSet.getObject(5, LocalDate.class));
-                user.setRole(resultSet.getNString(6));
+                user.setBirthDate(resultSet.getDate(5));
+                user.setRole(resultSet.getString(6));
                 user.setMail(resultSet.getString(7));
                 user.setPassword(resultSet.getString(8));
                 address.setUser(user);
@@ -104,7 +105,7 @@ public class AddressDaoJdbcImpl implements AddressDao {
             user.setId(resultSet.getLong(2));
             user.setName(resultSet.getString(3));
             user.setLastName(resultSet.getString(4));
-            user.setBirthDate(resultSet.getObject(5, LocalDate.class));
+            user.setBirthDate(resultSet.getDate(5));
             user.setRole(resultSet.getNString(6));
             user.setMail(resultSet.getString(7));
             user.setPassword(resultSet.getString(8));
@@ -138,7 +139,7 @@ public class AddressDaoJdbcImpl implements AddressDao {
                 user.setId(resultSet.getLong(2));
                 user.setName(resultSet.getString(3));
                 user.setLastName(resultSet.getString(4));
-                user.setBirthDate(resultSet.getObject(5, LocalDate.class));
+                user.setBirthDate(resultSet.getDate(5));
                 user.setRole(resultSet.getNString(6));
                 user.setMail(resultSet.getString(7));
                 user.setPassword(resultSet.getString(8));
@@ -161,7 +162,7 @@ public class AddressDaoJdbcImpl implements AddressDao {
     private Connection getConnection(){
         try {
             Class.forName("org.postgresql.Driver");
-            return DriverManager.getConnection("jdbs:postgresql://localhost:5432/ishop", "kajuga", "sashok");
+            return DriverManager.getConnection("jdbc:postgresql://localhost:5432/ishop", "kajuga", "sashok");
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class UserCreateServlet extends HttpServlet {
         User user = new User();
         user.setName(request.getParameter("name"));
         user.setLastName(request.getParameter("lastName"));
-        user.setBirthDate(LocalDate.parse(request.getParameter("birthDate")));
+        user.setBirthDate(Date.valueOf(request.getParameter("birthDate")));
         user.setRole(request.getParameter("role"));
         user.setMail(request.getParameter("mail"));
         user.setPassword(request.getParameter("password"));

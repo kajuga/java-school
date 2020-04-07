@@ -13,19 +13,19 @@
     <form action="${pageContext.servletContext.contextPath}/editAddress?id=${id}" method="POST">
         <table>
             <tr>
-                <td align="right" >id : </td>
-                <td align="right" >${id} </td>
+                <td align="right" hidden >id : </td>
+                <td align="right" hidden>${id} </td>
             </tr>
             <tr>
                 <td align="right" >First name : </td>
                 <td>
-                    <input type="text" value="${name}" disabled>
+                    <input type="text" value="${name}">
                 </td>
             </tr>
             <tr>
                 <td align="right" >Last name : </td>
                 <td>
-                    <input type="text" value="${lastName}" disabled>
+                    <input type="text" value="${lastName}">
                 </td>
             </tr>
 

@@ -9,9 +9,12 @@
 <p>
     <a href="${pageContext.servletContext.contextPath}/index.jsp">Main page</a>
 </p>
-<p>
-    <a href="${pageContext.servletContext.contextPath}/createAddress">Add delivery address</a>
-</p>
+<c:if test="${address == null}">
+    <p>
+        <a href="${pageContext.servletContext.contextPath}/createAddress">Add delivery address</a>
+    </p>
+</c:if>
+
 <div style="border:1px solid #D0D0D0;width:600px;padding:10px;">
 <%--    <c:if test="${empty address.user.name}">--%>
     <hr>

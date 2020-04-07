@@ -6,6 +6,7 @@ import afedorov.entities.User;
 import afedorov.exceptions.EntityExistException;
 import afedorov.settings.ServiceManager;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 
@@ -31,13 +32,13 @@ public class UserEditServlet extends HttpServlet {
         User user = new User();
         user.setName(request.getParameter("name"));
         user.setLastName(request.getParameter("lastName"));
-        user.setBirthDate(LocalDate.parse(request.getParameter("birthDate")));
+        user.setBirthDate(Date.valueOf(request.getParameter("birthDate")));
         user.setRole(request.getParameter("role"));
         user.setMail(request.getParameter("mail"));
         user.setPassword(request.getParameter("password"));
         try {
             userDao.update(Long.parseLong(request.getParameter("id")), user);
-            response.sendRedirect(request.getContextPath() + "/viewUser");
+            response.sendRedirect(request.getContextPath() + "/editUser");
         } catch (EntityExistException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());

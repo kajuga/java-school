@@ -100,16 +100,16 @@ CREATE TABLE users (
     password VARCHAR(50) not null
 );
 INSERT INTO users (name, lastName, birthDate, role, mail, password) VALUES (
-'Aleksandr', 'Fedorov', '1918-12-09', 'admin', 'kajuga@mail.ru', '111');
+'Aleksandr', 'Fedorov', '12/09/1918', 'ADMIN', 'kajuga@mail.ru', '111');
 INSERT INTO users (name, lastName, birthDate, role, mail, password) VALUES (
-'Polux', 'Abramovich', '1935-05-13', 'user', 'polux@mail.ru', '222');
+'Polux', 'Abramovich', '13/05/1935', 'USER', 'polux@mail.ru', '222');
 INSERT INTO users (name, lastName, birthDate, role, mail, password) VALUES (
-'Olga', 'Fedorova', '1925-06-14', 'user', 'olga@mail.ru', '333');
+'Olga', 'Fedorova', '14/06/1925', 'USER', 'olga@mail.ru', '333');
 
 
 CREATE TABLE address (
   id SERIAL PRIMARY KEY not null ,
-  user_id INTEGER not null REFERENCES users(id),
+  user_id INTEGER not null REFERENCES users(id) ON DELETE CASCADE ,
   country VARCHAR(30) NOT NULL ,
   city VARCHAR(30) NOT NULL ,
   postcode INTEGER ,
@@ -127,8 +127,8 @@ VALUES (2, 'Israel', 'Keona', 22342, 'Abbey Street', '48', '23', '+734453562224'
 
 CREATE TABLE orders (
     id SERIAL PRIMARY KEY not null ,
-    user_id INTEGER NOT NULL REFERENCES users(id),
-    address_id INTEGER NOT NULL REFERENCES address(id),
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE ,
+    address_id INTEGER NOT NULL REFERENCES address(id) ON DELETE CASCADE ,
     paymentMethod varchar (50) NOT NULL ,
     deliveryMethod varchar (50) NOT NULL ,
     paymentState varchar (50) DEFAULT 'AWAITING_PAYMENT' NOT NULL ,
@@ -144,7 +144,7 @@ VALUES (3, 3, 'CASH', 'post', 'AWAITING_PAYMENT', 'CREATED', 20);
 
 CREATE TABLE productInCart (
     id SERIAL PRIMARY KEY not null ,
-    order_id INTEGER NOT NULL REFERENCES orders(id),
+    order_id INTEGER NOT NULL REFERENCES orders(id) ON DELETE CASCADE ,
     product_id INTEGER NOT NULL REFERENCES product(id),
     price numeric (5, 2) not null,
     count INTEGER NOT NULL

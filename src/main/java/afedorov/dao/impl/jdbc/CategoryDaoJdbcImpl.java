@@ -93,7 +93,7 @@ public class CategoryDaoJdbcImpl implements CategoryDao {
     private Connection getConnection(){
         try {
             Class.forName("org.postgresql.Driver");
-            return DriverManager.getConnection("jdbs:postgresql://localhost:5432/ishop", "kajuga", "sashok");
+            return DriverManager.getConnection("jdbc:postgresql://localhost:5432/ishop", "kajuga", "sashok");
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
