@@ -14,7 +14,10 @@ import java.util.Map;
 public class OrderDaoJdbcImpl implements OrderDao {
     @Override
     public void add(Order order) {
-        try (PreparedStatement prepStat = getConnection().prepareStatement("INSERT INTO orders (user_id, address_id, paymentmethod, deliverymethod, paymentstate, orderstatus, ordercost) VALUES (?, ?, ?, ?, ?, ?, ?)")) {
+        try (PreparedStatement prepStat = getConnection()
+                .prepareStatement(
+                        "INSERT INTO orders (user_id, address_id, paymentmethod, deliverymethod, paymentstate, orderstatus, ordercost) " +
+                                "VALUES (?, ?, ?, ?, ?, ?, ?)")) {
 
             prepStat.setLong(1, order.getUser().getId());
             prepStat.setLong(2, order.getAddress().getId());
