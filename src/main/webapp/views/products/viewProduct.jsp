@@ -10,7 +10,7 @@
     <a href="${pageContext.servletContext.contextPath}/index.jsp">Main page</a>
 </p>
 
-<div style="border:1px solid #D0D0D0;width:750px;padding:10px;">
+<div style="border:1px solid #D0D0D0;width:900px;padding:10px;">
 
 <%--<p></p>--%>
 <%--<a href="${pageContext.servletContext.contextPath}/createProduct">Add product</a>--%>
@@ -39,12 +39,12 @@
         <td>${product.count}</td>
 
         <c:if test="${role=='ADMIN'}">
-
         <td><a href="${pageContext.servletContext.contextPath}/deleteProduct?delete=${product.id}">Delete</a></td>
         <td><a href="${pageContext.servletContext.contextPath}/editProduct?edit=${product.id}">Update</a></td>
         </c:if>
 
         <c:if test="${role=='USER'}">
+
             <td><form id="fillCart${product.id}" action="${pageContext.servletContext.contextPath}/shoppingCart" method="post">
                 <input type="number" id="count${product.id}" name="count${product.id}" min="0" max=${product.count} size="5">
                 <input name="id" value="${product.id}" hidden>
@@ -62,9 +62,10 @@
     </tr>
     </c:forEach>
     <p></p>
+
 </table>
 <c:if test="${role=='USER'}">
-    <a href="${pageContext.servletContext.contextPath}/views/shoppingCart/viewShoppingCart.jsp">Shopping cart</a>
+    <a href="${pageContext.servletContext.contextPath}/views/shoppingCart/viewShoppingCart.jsp">View shopping cart</a>
 </c:if>
 </div>
 </body>

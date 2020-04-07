@@ -29,9 +29,8 @@ public class ProductViewServlet extends HttpServlet {
         if (session.getAttribute("userId") == null) {
             List<Product> products = productDao.findAll();
             request.setAttribute("products", products);
-
-
         }
+
         List<Product> products = productDao.findAll();
         request.setAttribute("products", products);
         getServletContext().getRequestDispatcher("/views/products/viewProduct.jsp").forward(request, response);

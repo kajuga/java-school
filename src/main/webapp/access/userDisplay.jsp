@@ -14,19 +14,20 @@
 <p>
     <a href="${pageContext.servletContext.contextPath}/index.jsp">Main page</a>
 </p>
-<p>
-<td><a href="${pageContext.servletContext.contextPath}/viewProduct">Перейти в список товаров</a></td>
-</p>
+
 
 <div style="border:1px solid #D0D0D0;width:600px;padding:10px;">
-Welcome! You are Logged in
-<p>
-<tr>
-    <td><a href="${pageContext.servletContext.contextPath}/editUser">Edit profile</a></td>
-</tr>
-</p>
+    Welcome! You are Logged in
+    <p>
+        <tr>
+            <td><a href="${pageContext.servletContext.contextPath}/editUser">Edit profile</a></td>
+        </tr>
+    </p>
     <p>
         <a href="${pageContext.servletContext.contextPath}/editAddress">Update delivery address</a>
+    </p>
+    <p>
+    <td><a href="${pageContext.servletContext.contextPath}/viewProduct">Перейти в список товаров</a></td>
     </p>
 
 </div>

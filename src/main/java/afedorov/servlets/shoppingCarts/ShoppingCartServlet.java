@@ -52,6 +52,7 @@ public class ShoppingCartServlet extends HttpServlet {
         }
 
          session.setAttribute("shoppingCart", cart);
-         getServletContext().getRequestDispatcher("/views/shoppingCart/viewShoppingCart.jsp").forward(request, response);
+//         getServletContext().getRequestDispatcher("/views/shoppingCart/viewShoppingCart.jsp").forward(request, response);
+         getServletContext().getRequestDispatcher("/views/products/viewProduct.jsp").forward(request, response);
     }
 }
