@@ -1,6 +1,8 @@
 package afedorov.servlets.shoppingCarts;
 
 import afedorov.dao.interfaces.CategoryDao;
+import afedorov.dao.interfaces.OrderDao;
+import afedorov.entities.Order;
 import afedorov.entities.ProductInCart;
 import afedorov.settings.ServiceManager;
 
@@ -18,6 +20,7 @@ import java.util.Map;
 @WebServlet("/shoppingCart")
 public class ShoppingCartServlet extends HttpServlet {
     private CategoryDao categoryDao;
+    private OrderDao orderDao;
 
     @Override
     public void init() throws ServletException {
@@ -54,4 +57,14 @@ public class ShoppingCartServlet extends HttpServlet {
          session.setAttribute("shoppingCart", cart);
          getServletContext().getRequestDispatcher("/views/shoppingCart/viewShoppingCart.jsp").forward(request, response);
     }
+
+//TODO сюда повтор заказа
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Long userId = (Long)session.getAttribute("userId");
+        Order order = orderDao.findById(userId);
+        request.setAttribute("order", order);
+        getServletContext().getRequestDispatcher("/views/orders/viewSpecificUserOrders.jsp").forward(request, response);
+    }
+
 }

@@ -48,7 +48,17 @@
                     <td>${order.orderStatus}</td>
                     <td>${order.paymentState}</td>
                 </tr>
+
             </c:forEach>
+            <tr>
+            <td align="center" colspan="2">
+                <form id="fillOrder${order.id}" action="${pageContext.servletContext.contextPath}/shoppingCart">
+                       <input type="order_id" id="order_id${order.id}" name="order_id${order.id}" value="${order.id}"hidden>
+                      <button type="submit" form="fillOrder${order.id}" style="width: 100%" value="Submit">Repeat this order</button>
+                </form>
+            </td>
+            </tr>
+
             <tr>
                 <td colspan="9" style="background-color: rgba(180,180,172,0.87)"><strong>Сумма заказа :</strong></td>
                 <td style="background-color: rgba(180,180,172,0.87)">${order.orderCost}</td>
