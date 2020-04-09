@@ -1,5 +1,6 @@
 package afedorov.dao.impl.jdbc;
 
+import afedorov.dao.interfaces.CategoryDao;
 import afedorov.dao.interfaces.OrderDao;
 import afedorov.entities.*;
 
@@ -17,15 +18,33 @@ public class OrderDaoJdbcImpl implements OrderDao {
         try (PreparedStatement prepStat = getConnection()
                 .prepareStatement(
                         "INSERT INTO orders (user_id, address_id, paymentmethod, deliverymethod, paymentstate, orderstatus, ordercost) " +
-                                "VALUES (?, ?, ?, ?, ?, ?, ?)")) {
+                                "VALUES (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement prepProdInCart = getConnection()
+                .prepareStatement("INSERT INTO productincart (order_id, product_id, price, count) " +
+                "VALUES (?,?,?,?)")) {
 
             prepStat.setLong(1, order.getUser().getId());
             prepStat.setLong(2, order.getAddress().getId());
             prepStat.setString(3, order.getPaymentMethod().name());
-            prepStat.setString(4, order.getOrderStatus().name());
-            prepStat.setBigDecimal(5, order.getOrderCost());
+            prepStat.setString(4, order.getDeliveryMethod().name());
+            prepStat.setString(5, order.getPaymentState().name());
+            prepStat.setString(6, order.getOrderStatus().name());
+            prepStat.setBigDecimal(7, order.getOrderCost());
             prepStat.executeUpdate();
+            ResultSet resultSet = prepStat.getGeneratedKeys();
+            long order_id = 0;
+            if (resultSet.next()) {
+                order_id = resultSet.getLong(1);
+            }
+            for (Map.Entry<ProductInCart, Integer> pr: order.getProducts().entrySet()) {
+                prepProdInCart.setLong(1, order_id);
+                prepProdInCart.setLong(2, pr.getKey().getId());
+                prepProdInCart.setBigDecimal(3, pr.getKey().getPrice());
+                prepProdInCart.setInt(4, pr.getValue());
+                prepProdInCart.executeUpdate();
+            }
         } catch (SQLException exc) {
+            exc.printStackTrace();
         }
     }
 
@@ -164,8 +183,13 @@ public class OrderDaoJdbcImpl implements OrderDao {
             prepOrderFind.setLong(1, userId);
             resOrders = prepOrderFind.executeQuery();
             while (resOrders.next()) {
-                Long id = resOrders.getLong(2);
+                Long id = resOrders.getLong(1);
                 Order order = new Order();
+                User user = new User();
+                Address address = new Address();
+
+
+
                 ResultSet resOrderWithoutCart;
                 ResultSet resCartOrder;
                 ResultSet resCartPrice;
@@ -173,62 +197,74 @@ public class OrderDaoJdbcImpl implements OrderDao {
                         "       u.id AS user_id, u.name, u.lastName, u.birthDate, u.role, u.mail, u.password,\n" +
                         "       a.id AS address_id, a.country, a.city, a.postcode, a.street, a.houseNumber, a.room, a.phone\n" +
                         "           from orders AS o LEFT JOIN users AS u ON o.user_id = u.id LEFT JOIN address AS a on u.id = a.user_id WHERE o.id = (?)");
-                     PreparedStatement prepCartOrder = getConnection().prepareStatement("SELECT prc.id, prc.order_id AS order_id, prc.count AS count_in_cart, prc.price AS prod_in_cart_price, (prc.count * prc.price) AS summar_cost,\n" +
-                             "       pr.title, cat.title, pr.brand, pr.color, pr.weight, pr.description from productInCart AS prc LEFT JOIN product AS pr on prc.product_id = pr.id\n" +
-                             "LEFT JOIN category AS cat ON pr.category_id = cat.id WHERE prc.order_id = (?);");
+                     PreparedStatement prepCartOrder = getConnection().prepareStatement("SELECT prc.id, prc.order_id AS order_id, prc.count AS count_in_cart, prc.price AS prod_in_cart_price, (prc.count * prc.price) AS summar_cost, pr.title AS product_title, cat.id AS cat_id, cat.title AS category_title, pr.brand, pr.color, pr.weight, pr.description from productInCart AS prc LEFT JOIN product AS pr on prc.product_id = pr.id LEFT JOIN category AS cat ON pr.category_id = cat.id WHERE prc.order_id = (?)");
                      PreparedStatement prepCartPrice = getConnection().prepareStatement("SELECT sum(summar_cost) FROM(SELECT  (prc.count * prc.price) AS summar_cost\n" +
                              "       from productInCart AS prc LEFT JOIN product AS pr on prc.product_id = pr.id\n" +
                              "LEFT JOIN category AS cat ON pr.category_id = cat.id WHERE prc.order_id = (?)) as q")) {
                     prepOrderWithoutCart.setLong(1, id);
-                    prepCartOrder.setLong(1, id);
-                    prepCartPrice.setLong(1, id);
                     resOrderWithoutCart = prepOrderWithoutCart.executeQuery();
-                    resCartOrder = prepCartOrder.executeQuery();
-                    resCartPrice = prepCartPrice.executeQuery();
-                    order.setId(resOrderWithoutCart.getLong(1));
-                    User user = new User();
-                    user.setId(resOrderWithoutCart.getLong(7));
-                    user.setName(resOrderWithoutCart.getString(8));
-                    user.setLastName(resOrderWithoutCart.getString(9));
-                    user.setBirthDate(resOrderWithoutCart.getDate(10));
-                    user.setRole(resOrderWithoutCart.getString(11));
-                    user.setMail(resOrderWithoutCart.getString(12));
-                    user.setPassword(resOrderWithoutCart.getString(13));
-                    order.setUser(user);
-                    Address address = new Address();
-                    address.setId(resOrderWithoutCart.getLong(14));
-                    address.setUser(user);
-                    address.setCountry(resOrderWithoutCart.getString(15));
-                    address.setCity(resOrderWithoutCart.getString(16));
-                    address.setPostcode(resOrderWithoutCart.getInt(17));
-                    address.setStreet(resOrderWithoutCart.getString(18));
-                    address.setHouseNumber(resOrderWithoutCart.getString(19));
-                    address.setRoom(resOrderWithoutCart.getString(20));
-                    address.setPhone(resOrderWithoutCart.getString(21));
-                    order.setAddress(address);
-                    order.setOrderCost(resCartPrice.getBigDecimal(1));
-                    Map<ProductInCart, Integer> products = new HashMap<>();
-                    while (resCartOrder.next()) {
-                        ProductInCart pcart = new ProductInCart();
-                        pcart.setId(resCartOrder.getLong(1));
-                        pcart.setTitle(resCartOrder.getString(6));
-                        Category category = new Category();
-                        category.setId(resCartOrder.getLong(7));
-                        category.setTitle(resCartOrder.getString(8));
-                        pcart.setCategory(category);
-                        pcart.setBrand(resCartOrder.getString(9));
-                        pcart.setColor(resCartOrder.getString(10));
-                        pcart.setWeight(resCartOrder.getDouble(11));
-                        pcart.setDescription(resCartOrder.getString(12));
-                        products.put(pcart, resCartOrder.getInt(3));
+
+                    while (resOrderWithoutCart.next()) {
+                        order.setId(resOrderWithoutCart.getLong(1));
+                        user.setId(resOrderWithoutCart.getLong(7));
+                        user.setName(resOrderWithoutCart.getString(8));
+                        user.setLastName(resOrderWithoutCart.getString(9));
+                        user.setBirthDate(resOrderWithoutCart.getDate(10));
+                        user.setRole(resOrderWithoutCart.getString(11));
+                        user.setMail(resOrderWithoutCart.getString(12));
+                        user.setPassword(resOrderWithoutCart.getString(13));
+                        order.setUser(user);
+                        address.setId(resOrderWithoutCart.getLong(14));
+                        address.setUser(user);
+                        address.setCountry(resOrderWithoutCart.getString(15));
+                        address.setCity(resOrderWithoutCart.getString(16));
+                        address.setPostcode(resOrderWithoutCart.getInt(17));
+                        address.setStreet(resOrderWithoutCart.getString(18));
+                        address.setHouseNumber(resOrderWithoutCart.getString(19));
+                        address.setRoom(resOrderWithoutCart.getString(20));
+                        address.setPhone(resOrderWithoutCart.getString(21));
+                        order.setAddress(address);
+                        order.setPaymentMethod(PaymentMethod.fromKey(resOrderWithoutCart.getString(2)));
+                        order.setDeliveryMethod(DeliveryMethod.fromKey(resOrderWithoutCart.getString(3)));
+                        order.setPaymentState(PaymentState.fromKey(resOrderWithoutCart.getString(4)));
+                        order.setOrderStatus(OrderStatus.fromKey(resOrderWithoutCart.getString(5)));
+//                        order.setOrderCost(resOrderWithoutCart.getBigDecimal(6)); //todo возможно косяк со стоимостью корзины, разобраться откуда ее брать для повторения или для инфы
+                        //todo осталось заполнить Map<ProductInCart, Integer> products
                     }
-                    order.setProducts(products);
-                    order.setPaymentMethod(PaymentMethod.fromKey(resOrderWithoutCart.getString(2)));
-                    order.setDeliveryMethod(DeliveryMethod.fromKey(resOrderWithoutCart.getString(3)));
-                    order.setPaymentState(PaymentState.fromKey(resOrderWithoutCart.getString(4)));
-                    orders.add(order);
+                    prepCartOrder.setLong(1, id);
+                    resCartOrder = prepCartOrder.executeQuery();
+                    Map<ProductInCart, Integer> productsInOrder = new HashMap<>();
+                    while (resCartOrder.next()) {
+                        ProductInCart productInCart = new ProductInCart();
+                        productInCart.setId(resCartOrder.getLong(1));
+                        productInCart.setTitle(resCartOrder.getString(6));
+
+                        Category category = new Category();
+                        category.setId(resCartOrder.getLong("cat_id"));
+                        category.setTitle(resCartOrder.getString("category_title"));
+
+                        productInCart.setCategory(category);
+                        productInCart.setBrand(resCartOrder.getString(9));
+                        productInCart.setColor(resCartOrder.getString(10));
+                        productInCart.setWeight(resCartOrder.getDouble(11));
+                        productInCart.setDescription(resCartOrder.getString(12));
+                        productInCart.setPrice(resCartOrder.getBigDecimal(4));
+                        Integer count = resCartOrder.getInt(3);
+                        productsInOrder.put(productInCart, count);
+                    }
+                    order.setProducts(productsInOrder);
+
+                    prepCartPrice.setLong(1, id);
+                    resCartPrice = prepCartPrice.executeQuery();
+                    BigDecimal priceOrder = null;
+                    while (resCartPrice.next()) {
+                        priceOrder = resCartPrice.getBigDecimal(1);
+                    }
+                    order.setOrderCost(priceOrder);
             }
-        }
+                orders.add(order);
+
+            }
         }catch (SQLException exc) {
             exc.printStackTrace();
         }

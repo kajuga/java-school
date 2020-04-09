@@ -21,9 +21,9 @@ CREATE TABLE delivery (
     id SERIAL primary key ,
     method varchar(50) not null
 );
-INSERT INTO delivery (id, method) values (DEFAULT, 'post');
-INSERT INTO delivery (id, method) values (DEFAULT, 'pickup');
-INSERT INTO delivery (id, method) values (DEFAULT, 'courier');
+INSERT INTO delivery (id, method) values (DEFAULT, 'POST');
+INSERT INTO delivery (id, method) values (DEFAULT, 'PICKUP');
+INSERT INTO delivery (id, method) values (DEFAULT, 'COURIER');
 
 CREATE TABLE orderStatus (
     id SERIAL primary key NOT NULL ,
@@ -133,20 +133,20 @@ CREATE TABLE orders (
     deliveryMethod varchar (50) NOT NULL ,
     paymentState varchar (50) DEFAULT 'AWAITING_PAYMENT' NOT NULL ,
     orderStatus varchar (50) DEFAULT 'CREATED' NOT NULL ,
-    orderCost NUMERIC(5, 2)
+    orderCost NUMERIC(9, 2)
 );
 INSERT INTO orders (user_id, address_id, paymentMethod, deliveryMethod, paymentState, orderStatus, orderCost)
-VALUES (1, 1, 'CASH', 'post', 'AWAITING_PAYMENT', 'CREATED', 100);
+VALUES (1, 1, 'CASH', 'POST', 'AWAITING_PAYMENT', 'CREATED', 100);
 INSERT INTO orders (user_id, address_id, paymentMethod, deliveryMethod, paymentState, orderStatus, orderCost)
-VALUES (2, 2, 'CARD_PAYMENT', 'courier', 'BEING_PROCESSED', 'APPROVED', 200);
+VALUES (2, 2, 'CARD_PAYMENT', 'COURIER', 'BEING_PROCESSED', 'APPROVED', 200);
 INSERT INTO orders (user_id, address_id, paymentMethod, deliveryMethod, paymentState, orderStatus, orderCost)
-VALUES (3, 3, 'CASH', 'post', 'AWAITING_PAYMENT', 'CREATED', 20);
+VALUES (3, 3, 'CASH', 'PICKUP', 'AWAITING_PAYMENT', 'CREATED', 20);
 
 CREATE TABLE productInCart (
     id SERIAL PRIMARY KEY not null ,
     order_id INTEGER NOT NULL REFERENCES orders(id) ON DELETE CASCADE ,
     product_id INTEGER NOT NULL REFERENCES product(id),
-    price numeric (5, 2) not null,
+    price numeric (9, 2) not null,
     count INTEGER NOT NULL
 );
 INSERT INTO productInCart (order_id, product_id, price, count) VALUES (1, 1, 15.55, 3);
@@ -217,15 +217,16 @@ FROM productInCart AS p_cart LEFT JOIN product AS pr ON p_cart.product_id = pr.i
 SELECT o.id AS order_id, o.paymentMethod, o.deliveryMethod, o.paymentState, o.orderStatus, o.orderCost,
        u.id AS user_id, u.name, u.lastName, u.birthDate, u.role, u.mail, u.password,
        a.id AS address_id, a.country, a.city, a.postcode, a.street, a.houseNumber, a.room, a.phone
-           from orders AS o LEFT JOIN users AS u ON o.user_id = u.id LEFT JOIN address AS a on u.id = a.user_id WHERE o.id = (1);
+           from orders AS o LEFT JOIN users AS u ON o.user_id = u.id LEFT JOIN address AS a on u.id = a.user_id WHERE o.id = (3);
 -- Собираю корзину
 SELECT prc.id, prc.order_id AS order_id, prc.count AS count_in_cart, prc.price AS prod_in_cart_price, (prc.count * prc.price) AS summar_cost,
-       pr.title AS product_title, cat.id AS cat_id, cat.title as category_title, pr.brand, pr.color, pr.weight, pr.description from productInCart AS prc LEFT JOIN product AS pr on prc.product_id = pr.id
-LEFT JOIN category AS cat ON pr.category_id = cat.id WHERE prc.order_id = (?);
+       pr.title AS product_title, cat.id AS cat_id, cat.title AS category_title,
+       pr.brand, pr.color, pr.weight, pr.description from productInCart AS prc
+           LEFT JOIN product AS pr on prc.product_id = pr.id LEFT JOIN category AS cat ON pr.category_id = cat.id WHERE prc.order_id = (4);
 -- считаю суммарную стоимость заказа не момент когда был сделан
 SELECT sum(summar_cost) FROM(SELECT  (prc.count * prc.price) AS summar_cost
        from productInCart AS prc LEFT JOIN product AS pr on prc.product_id = pr.id
-LEFT JOIN category AS cat ON pr.category_id = cat.id WHERE prc.order_id = (?)) as q;
+LEFT JOIN category AS cat ON pr.category_id = cat.id WHERE prc.order_id = (3)) as q;
 -- ============================================================================================
 -- for FindByUser orders
 SELECT id FROM orders WHERE orders.user_id = (?);
@@ -253,3 +254,8 @@ drop table category;
 
 
 
+
+
+
+
+SELECT prc.id, prc.order_id AS order_id, prc.count AS count_in_cart, prc.price AS prod_in_cart_price, (prc.count * prc.price) AS summar_cost, pr.title AS product_title, cat.id AS cat_id, cat.title AS category_title, pr.brand, pr.color, pr.weight, pr.description from productInCart AS prc LEFT JOIN product AS pr on prc.product_id = pr.id LEFT JOIN category AS cat ON pr.category_id = cat.id WHERE prc.order_id = (4);

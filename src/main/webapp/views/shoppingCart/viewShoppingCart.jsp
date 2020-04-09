@@ -8,7 +8,7 @@
 <body>
 <p><a href="${pageContext.servletContext.contextPath}/index.jsp">Главная страница</a></p>
 <p><a href="${pageContext.servletContext.contextPath}/viewProduct">Return to products</a></p>
-<div style="border:1px solid #D0D0D0;width:600px;padding:10px;">
+<div style="border:1px solid #D0D0D0;width:750px;padding:10px;">
 <table border="1">
     <tr>
         <td>Id</td>
