@@ -61,9 +61,12 @@ public class ShoppingCartServlet extends HttpServlet {
 //TODO сюда повтор заказа
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        Long userId = (Long)session.getAttribute("userId");
-        Order order = orderDao.findById(userId);
+
+        int order_Id =Integer.parseInt(request.getParameter("order_id"));
+        Long orderId = (Long)session.getAttribute("order_id");
+        Order order = orderDao.findById(orderId);
         request.setAttribute("order", order);
+
         getServletContext().getRequestDispatcher("/views/orders/viewSpecificUserOrders.jsp").forward(request, response);
     }
 

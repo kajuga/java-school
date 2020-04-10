@@ -52,8 +52,8 @@
             </c:forEach>
             <tr>
             <td align="center" colspan="2">
-                <form id="fillOrder${order.id}" action="${pageContext.servletContext.contextPath}/shoppingCart">
-                       <input type="order_id" id="order_id${order.id}" name="order_id${order.id}" value="${order.id}"hidden>
+                <form id="fillOrder${order.id}" action="${pageContext.servletContext.contextPath}/orderRepeat" method="post">
+                      <input type="number"name="order_id" value="${order.id}" hidden>
                       <button type="submit" form="fillOrder${order.id}" style="width: 100%" value="Submit">Repeat this order</button>
                 </form>
             </td>
