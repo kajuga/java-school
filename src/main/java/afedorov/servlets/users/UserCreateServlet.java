@@ -1,25 +1,24 @@
 package afedorov.servlets.users;
 
-import afedorov.dao.impl.inmemory.UserDaoImpl;
 import afedorov.dao.interfaces.UserDao;
 import afedorov.entities.User;
 import afedorov.exceptions.EntityExistException;
 import afedorov.settings.ServiceManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Date;
-import java.time.LocalDate;
-import java.util.List;
 
 @WebServlet("/createUser")
 public class UserCreateServlet extends HttpServlet {
-    UserDao userDao;
+    private static final Logger logger = LoggerFactory.getLogger(UserCreateServlet.class.getName());
+    private UserDao userDao;
 
     @Override
     public void init() throws ServletException {
@@ -27,6 +26,7 @@ public class UserCreateServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.info("Login check... start POST createUser");
         User user = new User();
         user.setName(request.getParameter("name"));
         user.setLastName(request.getParameter("lastName"));
@@ -38,12 +38,12 @@ public class UserCreateServlet extends HttpServlet {
             userDao.add(user);
             request.getSession().setAttribute("userId", user.getId());
             request.getSession().setAttribute("role", user.getRole());
+            logger.info("Login check... end POST createUser");
             response.sendRedirect(request.getContextPath() + "/access/registerSuccesfull.jsp");
         } catch (EntityExistException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());
+            logger.error("Error createUser", e);
         }
     }
-
-
 }

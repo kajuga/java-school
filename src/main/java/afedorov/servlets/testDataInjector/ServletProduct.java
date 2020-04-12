@@ -1,12 +1,11 @@
 package afedorov.servlets.testDataInjector;
 
-import afedorov.dao.impl.inmemory.CategoryDaoImpl;
-import afedorov.dao.impl.inmemory.ProductDaoImpl;
 import afedorov.dao.interfaces.CategoryDao;
 import afedorov.dao.interfaces.ProductDao;
-import afedorov.entities.Category;
 import afedorov.entities.Product;
 import afedorov.settings.ServiceManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,6 +18,7 @@ import java.util.List;
 
 @WebServlet("/ServletAddProduct")
 public class ServletProduct extends HttpServlet {
+    private static final Logger logger = LoggerFactory.getLogger(ServletProduct.class.getName());
     private ProductDao productDao;
     private CategoryDao categoryDao;
 
@@ -28,15 +28,8 @@ public class ServletProduct extends HttpServlet {
         categoryDao = ServiceManager.getInstance(getServletContext()).getCategoryDao();
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        List<Category> categories = request.getAttribute("categories");
-//        request.gAttribute("categories", categories.toArray());
-
-
+        logger.info("Login check... start GET ServletAddProduct");
         Product product = new Product();
         product.setTitle("Latex toy");
         product.setCategory(categoryDao.findById(1L));
@@ -73,7 +66,7 @@ public class ServletProduct extends HttpServlet {
 
         List<Product> products = productDao.findAll();
         request.setAttribute("products", products);
+        logger.info("Login check... end GET ServletAddProduct");
         getServletContext().getRequestDispatcher("/views/products/viewProduct.jsp").forward(request, response);
-
     }
 }

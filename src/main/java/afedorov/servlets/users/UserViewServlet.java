@@ -1,9 +1,10 @@
 package afedorov.servlets.users;
 
-import afedorov.dao.impl.inmemory.UserDaoImpl;
 import afedorov.dao.interfaces.UserDao;
 import afedorov.entities.User;
 import afedorov.settings.ServiceManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @WebServlet("/viewUser")
 public class UserViewServlet extends HttpServlet {
+    private static final Logger logger = LoggerFactory.getLogger(UserViewServlet.class.getName());
     private UserDao userDao;
 
     @Override
@@ -22,13 +24,11 @@ public class UserViewServlet extends HttpServlet {
         userDao = ServiceManager.getInstance(getServletContext()).getUserDao();
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.info("Login check... start GET viewUser");
         List<User> users = userDao.findAll();
         request.setAttribute("users", users);
+        logger.info("Login check... end GET viewUser");
         getServletContext().getRequestDispatcher("/views/users/viewUser.jsp").forward(request, response);
     }
 }

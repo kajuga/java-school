@@ -1,15 +1,13 @@
 package afedorov.servlets.users;
 
-import afedorov.dao.impl.inmemory.UserDaoImpl;
 import afedorov.dao.interfaces.UserDao;
 import afedorov.entities.User;
 import afedorov.exceptions.EntityExistException;
 import afedorov.settings.ServiceManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Date;
-import java.time.LocalDate;
-
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,10 +15,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDate;
 
 @WebServlet("/editUser")
 public class UserEditServlet extends HttpServlet {
+    private static final Logger logger = LoggerFactory.getLogger(UserEditServlet.class.getName());
     private UserDao userDao;
 
     @Override
@@ -29,6 +27,7 @@ public class UserEditServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.info("Login check... start POST editUser");
         User user = new User();
         user.setName(request.getParameter("name"));
         user.setLastName(request.getParameter("lastName"));
@@ -38,14 +37,17 @@ public class UserEditServlet extends HttpServlet {
         user.setPassword(request.getParameter("password"));
         try {
             userDao.update(Long.parseLong(request.getParameter("id")), user);
+            logger.info("Login check... end POST editUser");
             response.sendRedirect(request.getContextPath() + "/editUser");
         } catch (EntityExistException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());
+            logger.error("Error POST editUser", e);
         }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.info("Login check... start GET editUser");
         Long userId = (Long) request.getSession().getAttribute("userId");
         if (userId != null) {
             User user = userDao.findById(userId);
@@ -57,6 +59,7 @@ public class UserEditServlet extends HttpServlet {
             request.setAttribute("mail", user.getMail());
             request.setAttribute("password", user.getPassword());
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/users/updateUser.jsp");
+            logger.info("Login check... end GET editUser");
             dispatcher.forward(request, response);
         } else {
             //Переход на страницу с просьюой авторизоваться

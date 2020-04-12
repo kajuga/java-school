@@ -1,12 +1,9 @@
 package afedorov.dao.impl.jdbc;
 
-import afedorov.dao.interfaces.CategoryDao;
 import afedorov.dao.interfaces.OrderDao;
 import afedorov.entities.*;
-
 import java.math.BigDecimal;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

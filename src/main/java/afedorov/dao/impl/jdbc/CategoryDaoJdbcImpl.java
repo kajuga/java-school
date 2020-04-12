@@ -2,13 +2,11 @@ package afedorov.dao.impl.jdbc;
 
 import afedorov.dao.interfaces.CategoryDao;
 import afedorov.entities.Category;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryDaoJdbcImpl implements CategoryDao {
-
 
     @Override
     public void add(Category category) {

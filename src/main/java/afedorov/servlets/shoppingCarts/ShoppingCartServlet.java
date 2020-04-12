@@ -5,6 +5,8 @@ import afedorov.dao.interfaces.OrderDao;
 import afedorov.entities.Order;
 import afedorov.entities.ProductInCart;
 import afedorov.settings.ServiceManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,6 +21,7 @@ import java.util.Map;
 
 @WebServlet("/shoppingCart")
 public class ShoppingCartServlet extends HttpServlet {
+    private static final Logger logger = LoggerFactory.getLogger(ShoppingCartServlet.class.getName());
     private CategoryDao categoryDao;
     private OrderDao orderDao;
 
@@ -28,12 +31,12 @@ public class ShoppingCartServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.info("Login check... start POST shoppingCart");
         HttpSession session = request.getSession();
         Map<ProductInCart, Integer> cart = (Map<ProductInCart, Integer>) session.getAttribute("shoppingCart");
-        if (cart == null){
+        if (cart == null) {
             cart = new HashMap<>();
         }
-
         ProductInCart productInCart = new ProductInCart();
         productInCart.setId(Long.parseLong(request.getParameter("id")));
         productInCart.setTitle(request.getParameter("title"));
@@ -43,31 +46,27 @@ public class ShoppingCartServlet extends HttpServlet {
         productInCart.setWeight(Double.parseDouble(request.getParameter("weight")));
         productInCart.setPrice(new BigDecimal(request.getParameter("price")));
         productInCart.setDescription(request.getParameter("description"));
-
         Integer count = Integer.parseInt(request.getParameter("count" + productInCart.getId()));
-
-        if (count != null){
-            if (cart.containsKey(productInCart)){
+        if (count != null) {
+            if (cart.containsKey(productInCart)) {
                 cart.put(productInCart, cart.get(productInCart) + count);
             } else {
                 cart.put(productInCart, count);
             }
         }
-
-         session.setAttribute("shoppingCart", cart);
-         getServletContext().getRequestDispatcher("/views/shoppingCart/viewShoppingCart.jsp").forward(request, response);
+        session.setAttribute("shoppingCart", cart);
+        logger.info("Login check... end POST shoppingCart");
+        getServletContext().getRequestDispatcher("/views/shoppingCart/viewShoppingCart.jsp").forward(request, response);
     }
 
-//TODO сюда повтор заказа
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.info("Login check... start GET shoppingCart");
         HttpSession session = request.getSession();
-
-        int order_Id =Integer.parseInt(request.getParameter("order_id"));
-        Long orderId = (Long)session.getAttribute("order_id");
+        int order_Id = Integer.parseInt(request.getParameter("order_id"));
+        Long orderId = (Long) session.getAttribute("order_id");
         Order order = orderDao.findById(orderId);
         request.setAttribute("order", order);
-
+        logger.info("Login check... end GET shoppingCart");
         getServletContext().getRequestDispatcher("/views/orders/viewSpecificUserOrders.jsp").forward(request, response);
     }
-
 }

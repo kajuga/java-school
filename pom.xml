@@ -17,6 +17,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+    <logback.version>1.2.3</logback.version>
+    <logback.contrib.version>0.1.5</logback.contrib.version>
   </properties>
 
   <dependencies>
@@ -62,6 +64,21 @@
       <version>42.2.12</version>
     </dependency>
 
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${logback.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback.contrib</groupId>
+      <artifactId>logback-json-classic</artifactId>
+      <version>${logback.contrib.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback.contrib</groupId>
+      <artifactId>logback-jackson</artifactId>
+      <version>${logback.contrib.version}</version>
+    </dependency>
 
 
   </dependencies>

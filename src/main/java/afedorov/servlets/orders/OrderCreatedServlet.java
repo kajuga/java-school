@@ -6,6 +6,8 @@ import afedorov.dao.interfaces.UserDao;
 import afedorov.entities.*;
 import afedorov.exceptions.EntityExistException;
 import afedorov.settings.ServiceManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,10 +21,10 @@ import java.util.Map;
 
 @WebServlet("/createOrder")
 public class OrderCreatedServlet extends HttpServlet {
+    private static final Logger logger = LoggerFactory.getLogger(OrderCreatedServlet.class.getName());
     private OrderDao orderDao;
     private UserDao userDao;
     private AddressDao addressDao;
-
 
     @Override
     public void init() throws ServletException {
@@ -33,11 +35,12 @@ public class OrderCreatedServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.info("Login check... start POST createOrder");
         HttpSession httpSession = request.getSession();
         Order order = new Order();
         User user = userDao.findById((Long) httpSession.getAttribute("userId"));
         Address address = addressDao.findByUserID(user.getId());
-        Map<ProductInCart, Integer> shopCart =  (Map<ProductInCart, Integer>) httpSession.getAttribute("shoppingCart");
+        Map<ProductInCart, Integer> shopCart = (Map<ProductInCart, Integer>) httpSession.getAttribute("shoppingCart");
 
         order.setUser(user);
         order.setAddress(address);
@@ -48,21 +51,15 @@ public class OrderCreatedServlet extends HttpServlet {
         order.setPaymentState(PaymentState.AWAITING_PAYMENT);
         order.setOrderCost(new BigDecimal(request.getParameter("countTotal")));
         try {
-        orderDao.add(order);
-        httpSession.setAttribute("shoppingCart", null);
-
-        response.sendRedirect(request.getContextPath() + "/views/orders/orderSuccesfullCreated.jsp");
-    } catch (
-    EntityExistException e) {
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        response.getWriter().println(e.getMessage());
-    }
-}
-
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-
-
+            orderDao.add(order);
+            logger.info("Login check... end POST createOrder");
+            httpSession.setAttribute("shoppingCart", null);
+            response.sendRedirect(request.getContextPath() + "/views/orders/orderSuccesfullCreated.jsp");
+        } catch (
+                EntityExistException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().println(e.getMessage());
+            logger.error("Error POST createOrder", e);
+        }
     }
 }

@@ -1,13 +1,13 @@
 package afedorov.servlets.products;
 
-import afedorov.dao.impl.inmemory.CategoryDaoImpl;
-import afedorov.dao.impl.inmemory.ProductDaoImpl;
 import afedorov.dao.interfaces.CategoryDao;
 import afedorov.dao.interfaces.ProductDao;
 import afedorov.entities.Category;
 import afedorov.entities.Product;
 import afedorov.exceptions.EntityExistException;
 import afedorov.settings.ServiceManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,7 +21,7 @@ import java.util.List;
 
 @WebServlet("/editProduct")
 public class ProductEditServlet extends HttpServlet {
-
+    private static final Logger logger = LoggerFactory.getLogger(ProductEditServlet.class.getName());
     private ProductDao productDao;
     private CategoryDao categoryDao;
 
@@ -32,6 +32,7 @@ public class ProductEditServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.info("Login check... start POST editProduct");
         Product product = new Product();
         product.setTitle(request.getParameter("title"));
         product.setCategory(categoryDao.findById(Long.parseLong(request.getParameter("category"))));
@@ -41,19 +42,19 @@ public class ProductEditServlet extends HttpServlet {
         product.setPrice(new BigDecimal(request.getParameter("price")));
         product.setDescription(request.getParameter("description"));
         product.setCount(Integer.parseInt(request.getParameter("count")));
-
-//        List<Category> categories = categoryDao.findAll();
-//        request.setAttribute("categories", categories);
         try {
             productDao.update(Long.parseLong(request.getParameter("id")), product);
+            logger.info("Login check... end POST editProduct");
             response.sendRedirect(request.getContextPath() + "/viewProduct");
         } catch (EntityExistException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());
+            logger.error("Error POST editProduct", e);
         }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.info("Login check... start GET editProduct");
         String id = request.getParameter("edit");
         Product product = productDao.findById(Long.parseLong(id));
         request.setAttribute("id", id);
@@ -68,6 +69,7 @@ public class ProductEditServlet extends HttpServlet {
         List<Category> categories = categoryDao.findAll();
         request.setAttribute("categories", categories);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/views/products/updateProduct.jsp");
+        logger.info("Login check... end GET editProduct");
         dispatcher.forward(request, response);
     }
 }

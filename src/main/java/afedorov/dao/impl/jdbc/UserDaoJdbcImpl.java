@@ -3,6 +3,9 @@ package afedorov.dao.impl.jdbc;
 import afedorov.dao.interfaces.UserDao;
 import afedorov.entities.User;
 import afedorov.exceptions.EntityExistException;
+import afedorov.servlets.access.LoginCheckServlet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -10,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoJdbcImpl implements UserDao {
+    private static final Logger logger = LoggerFactory.getLogger(UserDaoJdbcImpl.class.getName());
 
     @Override
     public void add(User user) {
@@ -31,7 +35,7 @@ public class UserDaoJdbcImpl implements UserDao {
                 user.setId(resultSet.getLong(1));
             }
         } catch (SQLException exc) {
-            exc.printStackTrace();
+            logger.error("Error adding user", exc);
         }
     }
 

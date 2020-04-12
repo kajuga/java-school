@@ -6,6 +6,8 @@ import afedorov.entities.Address;
 import afedorov.entities.User;
 import afedorov.exceptions.EntityExistException;
 import afedorov.settings.ServiceManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,6 +22,7 @@ import java.util.Map;
 
 @WebServlet("/editAddress")
 public class AddressEditServlet extends HttpServlet {
+    private static final Logger logger = LoggerFactory.getLogger(AddressEditServlet.class.getName());
     private AddressDao addressDao;
     private UserDao userDao;
 
@@ -27,10 +30,10 @@ public class AddressEditServlet extends HttpServlet {
     public void init() throws ServletException {
         addressDao = ServiceManager.getInstance(getServletContext()).getAddressDao();
         userDao = ServiceManager.getInstance(getServletContext()).getUserDao();
-
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.info("Login check... start edit address by user id ");
         HttpSession session = request.getSession();
         if (session.getAttribute("userId") != null) {
             Address address = new Address();
@@ -42,13 +45,14 @@ public class AddressEditServlet extends HttpServlet {
             address.setHouseNumber(request.getParameter("houseNumber"));
             address.setRoom(request.getParameter("room"));
             address.setPhone(request.getParameter("phone"));
-
             try {
                 addressDao.update(Long.parseLong(request.getParameter("id")), address);
+                logger.info("Login check... end");
                 response.sendRedirect(request.getContextPath() + "/viewAddress");
             } catch (EntityExistException e) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().println(e.getMessage());
+                logger.error("Error edit address", e);
             }
         } else {
             response.sendRedirect("/ishop/access/errorLogin.jsp");
@@ -57,6 +61,8 @@ public class AddressEditServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.info("Login check... start address view");
+
         HttpSession httpSession = request.getSession();
         Long idUser = (Long)(httpSession.getAttribute("userId"));
         Address address = addressDao.findByUserID(idUser);
@@ -72,14 +78,17 @@ public class AddressEditServlet extends HttpServlet {
             request.setAttribute("room", address.getRoom());
             request.setAttribute("phone", address.getPhone());
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/addresses/updateAddress.jsp");
+            logger.info("Login check... end");
             dispatcher.forward(request, response);
         } else if (idUser != null) {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/addresses/createAddress.jsp");
+            logger.info("Login check... transfer to create address...");
             dispatcher.forward(request, response);
         }
         else {
             //Переход на страницу с просьюой авторизоваться
             RequestDispatcher dispatcher = request.getRequestDispatcher("/access/errorLogin.jsp");
+            logger.info("Login check... user login error");
             dispatcher.forward(request, response);
         }
 

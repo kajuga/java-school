@@ -3,13 +3,12 @@ package afedorov.dao.impl.jdbc;
 import afedorov.dao.interfaces.AddressDao;
 import afedorov.entities.Address;
 import afedorov.entities.User;
-
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AddressDaoJdbcImpl implements AddressDao {
+
 
     @Override
     public void add(Address address) {
@@ -24,9 +23,9 @@ public class AddressDaoJdbcImpl implements AddressDao {
             repStat.setString(7, address.getRoom());
             repStat.setString(8, address.getPhone());
             repStat.executeUpdate();
+        } catch (SQLException exc) {
+            exc.printStackTrace();
 
-        }catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
@@ -36,6 +35,7 @@ public class AddressDaoJdbcImpl implements AddressDao {
             prepStat.setLong(1, id);
             prepStat.executeUpdate();
         } catch (SQLException exc) {
+            exc.printStackTrace();
         }
     }
 
@@ -163,9 +163,7 @@ public class AddressDaoJdbcImpl implements AddressDao {
         try {
             Class.forName("org.postgresql.Driver");
             return DriverManager.getConnection("jdbc:postgresql://localhost:5432/ishop", "kajuga", "sashok");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return null;

@@ -4,6 +4,8 @@ import afedorov.dao.impl.inmemory.CategoryDaoImpl;
 import afedorov.dao.interfaces.CategoryDao;
 import afedorov.entities.Category;
 import afedorov.settings.ServiceManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,6 +18,7 @@ import java.util.List;
 
 @WebServlet("/ServletAddCategory")
 public class ServletCategory extends HttpServlet {
+    private static final Logger logger = LoggerFactory.getLogger(ServletCategory.class.getName());
     private CategoryDao categoryDao;
 
     @Override
@@ -23,11 +26,8 @@ public class ServletCategory extends HttpServlet {
         categoryDao = ServiceManager.getInstance(getServletContext()).getCategoryDao();
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.info("Login check... start GET ServletAddCategory");
         Category category = new Category();
         category.setTitle("SPORT");
         Category category2 = new Category();
@@ -39,7 +39,7 @@ public class ServletCategory extends HttpServlet {
         categoryDao.add(category3);
         List<Category> categories = categoryDao.findAll();
         request.setAttribute("categories", categories.toArray());
+        logger.info("Login check... end GET ServletAddCategory");
         getServletContext().getRequestDispatcher("/views/categories/viewCategory.jsp").forward(request, response);
-
     }
 }

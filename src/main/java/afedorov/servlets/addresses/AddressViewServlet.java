@@ -3,6 +3,8 @@ package afedorov.servlets.addresses;
 import afedorov.dao.interfaces.AddressDao;
 import afedorov.entities.Address;
 import afedorov.settings.ServiceManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +17,7 @@ import java.util.List;
 
 @WebServlet("/viewAddress")
 public class AddressViewServlet extends HttpServlet {
+    private static final Logger logger = LoggerFactory.getLogger(AddressViewServlet.class.getName());
     private AddressDao addressDao;
 
     @Override
@@ -22,19 +25,19 @@ public class AddressViewServlet extends HttpServlet {
         addressDao = ServiceManager.getInstance(getServletContext()).getAddressDao();
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.info("Start get viewAddress");
         HttpSession session = request.getSession();
         Long userId = (Long) session.getAttribute("userId");
+
         if (userId != null) {
             Address address = addressDao.findByUserID(userId);
             request.setAttribute("address", address);
             getServletContext().getRequestDispatcher("/views/addresses/viewAddress.jsp").forward(request, response);
         } else {
+            logger.error("Error user login");
             response.sendRedirect("/ishop/access/errorLogin.jsp");
         }
+        logger.info("End get viewAddress");
     }
 }
