@@ -16,12 +16,9 @@ import java.io.PrintWriter;
 public class LogOutServlet extends HttpServlet {
     private static final Logger logger = LoggerFactory.getLogger(LogOutServlet.class.getName());
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         logger.info("Login check... logout start");
+        request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html");
         PrintWriter out=response.getWriter();
         request.getRequestDispatcher("index.jsp").include(request, response);
