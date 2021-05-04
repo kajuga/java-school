@@ -10,7 +10,7 @@
 
 <!--  <servlet>-->
 <!--    <servlet-name>CategoryServlet</servlet-name>-->
-<!--    <servlet-class>afedorov.servletsCategoryServlet</servlet-class>-->
+<!--    <servlet-class>afedorov.servlets.CategoryServlet</servlet-class>-->
 <!--  </servlet>-->
 <!--  <servlet-mapping>-->
 <!--    <servlet-name>CategoryServlet</servlet-name>-->

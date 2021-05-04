@@ -162,7 +162,7 @@ public class AddressDaoJdbcImpl implements AddressDao {
     private Connection getConnection(){
         try {
             Class.forName("org.postgresql.Driver");
-            return DriverManager.getConnection("jdbc:postgresql://localhost:5432/ishop", "kajuga", "sashok");
+            return DriverManager.getConnection("jdbc:postgresql://localhost:5432/ishop", "admin", "123456");
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
